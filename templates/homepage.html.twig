@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<head>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }}">
+</head>
+
+<body>
+	{% include 'header.php' %}
+	{% include 'menu.php' %}
+
+    <div class="news-container">
+		<div class="news">
+        
+            <img class="news-icon" src=" {{ asset ('uploads/articles-icons/unknown.jpg') }} ">
+            <div class="news-content">
+
+                <a href="#">
+                	<div class="news-header">Title</div>
+                </a>
+                <div class="news-header-date"> posted 01.01.1970 00:00 </div>
+
+
+                <div class="news-text">
+                Lorem Ipsum
+                </div>
+                <br>
+                <!-- <a class="news-read-more" href="#">Read more...</a> -->
+            </div>
+
+        </div>
+	{# 
+    <?php
+    if($this->currentUser != null
+    && $this->currentUser->haveModPerms()) : ?>
+
+        <div class="inline-flex">
+			<h2 class="">Articles</h2>
+			<a href="newArticle">
+				<div class="add-comment">
+				New Article
+				</div>
+			</a>
+		</div>
+        
+    <?php endif; ?>
+
+    <?php foreach($articles as $article): ?>
+    
+        <div class="news">
+        
+            <img class="news-icon" src="<?= "public/uploads/articles-icons/" . $article['image'] ?>">
+            <div class="news-content">
+
+                <a href="<?= "article?id=", $article['articles_id'] ?>">
+                <div class="news-header"><?= $article['title'] ?></div>
+                </a>
+                <div class="news-header-date"> posted <?= $article['date'] ?> </div>
+
+
+                <div class="news-text">
+                <?= $article['content'] ?>
+                </div>
+                <br>
+                <!-- <a class="news-read-more" href="#">Read more...</a> -->
+            </div>
+
+        </div>
+    <?php endforeach; ?> #}
+    </div>
+</body>

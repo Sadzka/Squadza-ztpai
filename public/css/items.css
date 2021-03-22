@@ -1,0 +1,154 @@
+
+body {
+	background-color: rgb(36, 36, 36);
+	margin: 0;
+}
+
+
+/*** Tooltip ***/
+
+#item-id {
+	display: none;
+}
+
+.item-id-visible {
+	color: #777777;
+	font-style: italic;
+	float: right;
+}
+.itemtooltip {
+	margin-top: 2em;
+	margin-left: 1em;
+}
+.tooltip {
+	border-spacing: 0;
+    font-family: Verdana, open sans, Arial, Helvetica, sans-serif;
+
+}
+body > table.tooltip.icon > tbody > tr > th > div > img {
+	width: 1.75em;
+	height: 1.75em;
+}
+
+.tooltip th {
+	padding: 3px;
+	background: url(../img/tooltip.png);
+    text-align: left;
+}
+
+.name { font-size: 1.2em; }
+
+.item {	
+	font-size: 0.75em;
+	line-height: 1.3em;
+	padding: 5px 4px 0px 5px;
+	width: 32em;
+	color: white;
+	font-weight: 400;
+}
+
+.alignright { float: right; }
+.ilvl { color: #ffd100; }
+
+.tooltip .top-right { background-position: top right; }
+.tooltip th.bottom-left { background-position: bottom left; }
+.tooltip th.bottom-right { background-position: bottom right; }
+
+/*** Icon ***/
+.iconlarge {
+    position: relative;
+	width: 78px;
+	float: left;
+	margin: 0;
+}
+.itemicon {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    border-radius: 8px;
+}
+
+/*** Socket ***/
+.sockets {
+	display: flex;
+	flex-direction: column;
+}
+
+.socket {
+	display: flex;
+    padding-left: 1.4em;
+	margin: 1px 0;
+	height: 1.25em;
+	align-items: center;
+}
+.s-red { background: url(../img/sockets/red.jpg) no-repeat left center; background-size: 1.20em; }
+.s-red::after { content: "Red Socket"; }
+.s-green { background: url(../img/sockets/green.jpg) no-repeat left center; background-size: 1.20em; }
+.s-green::after { content: "Green Socket"; }
+.s-blue { background: url(../img/sockets/blue.jpg) no-repeat left center; background-size: 1.20em; }
+.s-blue::after { content: "Blue Socket"; }
+.s-gray { background: url(../img/sockets/gray.jpg) no-repeat left center; background-size: 1.20em; }
+.s-gray::after { content: "Gray Socket"; }
+
+.voteup.clicked {
+	color: green;
+}
+
+.votedown.clicked {
+	color: red;
+}
+
+/*** Quality ***/
+.q0 { color: #ffffff; }
+.q1 { color: #777777; }
+.q2 { color: #00ff00; }
+.q3 { color: #0000ff; }
+.q4 { color: #cc00ff; }
+.q5	{ color: #ff5500; }
+.q6	{ color: #ffff00; }
+.q7	{ color: #ff0000; }
+.q8	{ color: #00ffff; }
+
+a .q0 {
+	text-decoration: none;
+}
+a .q5 {
+	text-decoration: none;
+}
+/*** Gold ***/
+.moneys {
+	display: flex;
+	flex-direction: row;
+}
+
+.money{
+	margin: 0;
+    padding-left: 1.4em;
+}
+
+.m-gold {
+	background: url(../img/money/money-gold.gif) no-repeat left center; background-size: 1.20em;
+}
+.m-silver {
+	background: url(../img/money/money-silver.gif) no-repeat left center; background-size: 1.20em;
+}
+.m-copper {
+	background: url(../img/money/money-copper.gif) no-repeat left center; background-size: 1.20em;
+}
+
+.item-ext-link {
+	float: right;
+	width: 16px;
+	height: 16px;
+}
+
+@media only screen and (max-device-width: 420px) {
+    * {
+		font-size: 28px;	
+    }
+}
+@media only screen and (max-device-width: 720px) {
+    * {
+		font-size: 32px;	
+    }
+}
