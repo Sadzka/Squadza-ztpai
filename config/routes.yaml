@@ -4,13 +4,18 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
-login:
-    path: /login
-    controller: App\Controller\DefaultController::login
-
-register:
-    path: /register
-    controller: App\Controller\DefaultController::register
+index_path:
+    path: /{path}
+    controller: App\Controller\DefaultController::index
+#
+#login:
+#    path: /login
+#    controller: App\Controller\DefaultController::login
+#
+#register:
+#    path: /register
+#    controller: App\Controller\DefaultController::register
+#
 
 item:
     path: /item

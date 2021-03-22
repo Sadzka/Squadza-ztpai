@@ -4,15 +4,19 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController {
 
-    public function index(int $path) : Response
+    public function index(string $path=null) : Response
     {
-        return $this->render('homepage.html.twig');
-    }
+        if($path == null)
+            return $this->render('homepage.html.twig');
 
+        return $this->render($path . '.html.twig');
+        
+    }
+    
+    /*
     public function login() : Response
     {
         return $this->render('login.html.twig');
@@ -22,6 +26,7 @@ class DefaultController extends AbstractController {
     {
         return $this->render('register.html.twig');
     }
+    */
 }
 
 
