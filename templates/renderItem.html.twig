@@ -1,0 +1,118 @@
+<p class="iconlarge">
+	<img src={{ asset("public/img/icons/itemborder.png") }} />
+	<img class="itemicon" src= {{ asset("public/img/icons/ ~ item.getIcon() ~ .jpg") }} />
+</p>
+				
+<table class="tooltip">
+	<th>
+		<div class="item">
+			<span class="q{{ item.getQuality() }} name"> {{ item.getName() }} </span>
+			
+			<div id="item-id">{{ item.getId() }}</div>
+			<div class="item-id-visible">ID: {{ item.getId() }}</div> <br>
+			{% if item.getItemLevel() is not null %}
+				<span class="ilvl">Item Level <span id="ilvlvalue"> {{ item.getItemLevel() }} </span></span> <br>
+			{% endif %}
+			
+			{% if item.getItemLevel() is not null %}
+				<span id="boe">
+					{% if item.isBindOnPickUp() %} 
+					Binds when pick up
+					{% else %}
+					Binds on equip
+					{% endif %}
+				</span> <br>
+			{% endif %}
+
+			{% if $item.isUnique() > 0 %}
+				<span id="Unique">Unique {{ item.isUnique() }} </span> <br>
+			{% endif %}
+
+			 
+			{% if item.getSlot() != "" %}
+				<span id="eqtype"> {{ item.getSlot() }} </span>
+			{% endif %}
+
+			<span id="ittype" class="alignright"> {{ item.getEquipType() }} </span><br>
+
+			{% if item.getDamage() is not null %}
+				<span id="damage"> {{ item.getDamage()[0] }} - {{ item.getDamage()[1] }} Damage</span>;
+				{% if item.getSpeed() is not null %}
+						<span id="speed" class="alignright"> {{ item.getSpeed() }} Speed</span> <br>;
+						<span id="dps">(
+						 {{ (( ~ item.getDamage()[0] + item.getDamage[1])/(2 * item.getSpeed()))|round(2) }} )
+						 Damage per second)</span><br>';
+				{% endif %}
+			{% endif %}
+
+			{% if item.getStats() is not null %}
+				{% for stat in item.getStats() %}
+					{% if stat['stat'] == "stamina"
+					   or stat['stat'] == "strength"
+					   or stat['stat'] == "intelect"
+					   or stat['stat'] == "agility"
+					   or stat['stat'] == "spirit" %}
+						<span>
+					{% else %}
+						<span class="q2">
+					{% endif %}
+						+{{ stat['value'] }} {{ stat['stat'] }} <span><br> 
+				{% endfor %}
+			{% endif %}
+			
+			{% if item.getSockets()[0] is not null %}
+				<div class="sockets"><br>;
+					{% for socket in item.getSockets() %}
+						{% if $socket is not null %}
+							<p class="socket q1 s- {{ socket }}"></p>
+						{% endif %}
+					{% endfor %}
+					
+					{% set bonus = item.getSocketBonus() %}
+					{% if bonus is not null %}
+						<span class="q1"> Socket Bonus: + {{ bonus['value'] }} {{ bonus['stat'] }} </span>
+					{% endif %}
+				<br></div>
+			{% endif %}
+			
+			{% if item.getRequiredLevel() != 0 %}
+				<span>Required Level {{ item.getRequiredLevel() }}</span><br>
+			{% endif %}
+
+			<div class="moneys">
+				{% set price = item.getSellPrice() %}
+				{% if price == 0%}
+					No sell price.
+				{% else %}
+					Sell Price
+					{% set gold = price/10000 % 100 %}
+					{% if gold != 0 %}
+						{{ gold }} <p class="money m-gold" />
+					{% endif %}
+
+					{% set silver = price/100 % 100 %}
+					{% if silver != 0 %}
+						{{ silver }} <p class="money m-silver" />
+					{% endif %}
+
+					{% set copper = price/10000 % 100 %}
+					{% if copper != 0 %}
+						{{ copper }} <p class="money m-copper" />
+					{% endif %}
+
+				{% endif %}
+			</div>
+			
+			<th class="top-right">
+			
+			<tr>
+				<th class="bottom-left"></th>
+				<th class="bottom-right"></th>
+			</tr>
+			
+			<!-- <th style="background-position: top right;"></th> -->
+			<!-- <tr><th style="background-position: bottom left"></th><th style="background-position: bottom right"></th></tr>  -->
+			<br>
+		</div>
+	</th>
+</table>

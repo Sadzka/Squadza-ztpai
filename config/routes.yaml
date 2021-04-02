@@ -1,22 +1,42 @@
 # config/routes.yaml
 
+# articles
 index:
     path: /
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\ArticleController::page
 
-index_path:
-    path: /{path}
-    controller: App\Controller\DefaultController::index
-#
-#login:
-#    path: /login
-#    controller: App\Controller\DefaultController::login
-#
-#register:
-#    path: /register
-#    controller: App\Controller\DefaultController::register
-#
+index_page:
+    path: /page/{number}
+    controller: App\Controller\ArticleController::page
+
+article:
+    path: /article/{article_id}
+    controller: App\Controller\ArticleController::article
+
+new_article:
+    path: /newArticle
+    controller: App\Controller\ArticleController::newArticle
+
+# Security Controller
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+register:
+    path: /register
+    controller: App\Controller\SecurityController::register
+
+profile:
+    path: /profile
+    controller: App\Controller\SecurityController::profile
+
+# Item Controller
 
 item:
     path: /item
     controller: App\Controller\ItemController::item
+
+# Default Controller
+index_path:
+    path: /{path}
+    controller: App\Controller\DefaultController::index

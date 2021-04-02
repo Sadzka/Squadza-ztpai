@@ -6,8 +6,81 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends AbstractController {
+	
+	private $messages = [];
+	const MAX_FILE_SIZE = 1024 * 1024;
+	const SUPPORTED_TYPES = ['image/png', 'image/jpeg'];
+	const UPLOAD_DIRECTORY = '/../public/uploads/avatars/';
+
+	public function login()
+    {   
+		// uzytkownik jest zalogowany, przekieruj na strone glowna
+		
+		if ($this->currentUser != null) {
+			$url = "http://$_SERVER[HTTP_HOST]";
+			header("Location: {$url}/index");
+			//return;
+		}
+        // $user = new User('qwe@qwe.qwe', 'qwe', 'Qwe');
+		
+        if (!$this->isPost()) {
+            return $this->render('login');
+        }
+		
+		if (!isset($_POST['email']) || !isset($_POST['password'])) {
+            return $this->render('login');
+		}
+
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+		$user = UserRepository::getInstance()->getUser($email);
+		
+		if ($user == null
+		||  $user->getEmail() !== $email
+		||  password_verify($password, $user->getPassword()) == false) {
+			return $this->render('login', ['messages' => ['Wrong email or password!']]);
+		}
+
+		// Succesfull
+
+		$cookieValue = $this->generateCookie();
+		$cookieExpiration = time() + 60*60*12*3;
+		setcookie("sessionid", $cookieValue, $cookieExpiration, '/', "localhost", false, false); // set cookie for 3 days
+		UserRepository::getInstance()->setUserCookie($email, $cookieValue, $cookieExpiration);
+
+
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/index");
+		// TODO
+    }
+	
+	public function profile()
+    {
+		if (Request::createFromGlobals()->getMethod() == 'POST'
+		&& is_uploaded_file( $_FILES['file']['tmp_name'])
+		&& $this->validateImage($_FILES['file']))
+		{
+			$ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$filename = $this->currentUser->getUsername() . '_' . bin2hex(random_bytes(16)) . '.' . $ext;
+
+			if (move_uploaded_file(
+			$_FILES['file']['tmp_name'],
+			dirname(__DIR__) . self::UPLOAD_DIRECTORY . $filename
+			)) {
+				UserRepository::getInstance()->setUserAvatar($this->currentUser->getEmail(), $filename);
+				$this->messages[] = 'Avatar changed.';
+			}
+			else {
+				$this->messages[] = 'Unknown error. Try again.';
+			}
+		}
+
+		return $this->render('profile.html.twig', ['messages' => $this->messages]);	
+	}
 
 /*
 require_once 'AppController.php';
