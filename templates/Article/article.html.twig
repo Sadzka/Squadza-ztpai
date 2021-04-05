@@ -1,24 +1,22 @@
 <!DOCTYPE HTML>
 <head>
-    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset ('css/main.css') }}">
 </head>
 
 <body>
+
 	{% include 'Utils/header_and_menu.html.twig' %}
+    
+    <!-- TODO -->
 
     <div class="news-container">
-
-    {% for article in articles %}
-        <div class="news">
-            <img class="news-icon" src=" {{ asset ("uploads/articles-icons/" ~ article.getImage() ) }} ">
-            
+        <div class="news news-full">
             <div class="news-content">
 
-                <a href="/article/{{ article.getId() }}" />
+                <a href="article/ {{ article.getId() }}" />
                 <div class="news-header"> {{ article.getTitle() }} </div>
                 </a>
                 <div class="news-header-date"> posted {{ article.getDate()|date('d-m-Y h:i:s') }} </div>
-
 
                 <div class="news-text">
                 {{ article.getContent() }}
@@ -27,6 +25,5 @@
                 <!-- <a class="news-read-more" href="#">Read more...</a> -->
             </div>
         </div>
-    {% endfor %}
     </div>
 </body>

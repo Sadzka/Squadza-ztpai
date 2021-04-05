@@ -53,6 +53,11 @@ input {
     border: 1px solid #2699fb;
 }   
 
+.input-text-checkbox {
+    height: 1.2em;
+    width: 1.2em;
+}
+
 .no-valid {
     border: 2px solid red !important; 
     box-shadow: 0 0 0.2em red;

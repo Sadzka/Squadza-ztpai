@@ -36,9 +36,19 @@ class ArticleController extends AbstractController
             array('id' => $article_id)
         );
 
-        return $this->render('article.html.twig', [
+        return $this->render('article/article.html.twig', [
             'article' => $article,
         ]);
+    }
+    
+    public function newArticle() : Response
+    {
+        return $this->render('article/newArticle.html.twig');
+    }
+
+    public function editArticle($article_id) : Response
+    {
+        
     }
 }
 

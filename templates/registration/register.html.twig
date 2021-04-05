@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<head>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+
+	<script type="text/javascript" src=" {{ asset ('js/script.js') }}" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <embed id="logo"     src="{{ asset ('img/Squadza.svg') }}"/>
+        <div class="login-form">
+
+            {{ form_start(registrationForm) }}
+
+                {{ form_widget(registrationForm.email) }}
+                {{ form_widget(registrationForm.username) }}
+                {{ form_widget(registrationForm.plainPassword.first) }}
+                {{ form_widget(registrationForm.plainPassword.second) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+                <input class="button" type="submit" value="REGISTER" name="Register"></p>
+
+            {{ form_end(registrationForm) }}
+        </div>
+
+        <div class="messages">
+        
+            {{ form_errors(registrationForm.email) }}
+            {{ form_errors(registrationForm.username) }}
+            {{ form_errors(registrationForm.plainPassword.first) }}
+            {{ form_errors(registrationForm.plainPassword.second) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+
+            {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+        </div>
+
+        <hr>
+        <span class="help-text"> <a href="login">Have account? Login instead.</a> </span>
+
+    </div>
+</body>

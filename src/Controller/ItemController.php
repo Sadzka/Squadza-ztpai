@@ -6,9 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends AbstractController {
+    
     public function item()
     {
-        return $this->render('item.html.twig');
+        return $this->render('item/item.html.twig');
     }
     
 /*

@@ -1,11 +1,15 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
-{% extends 'base.html.twig' %}
+<!DOCTYPE HTML>
+<head>
+    <link type="text/css" rel="stylesheet" href="public/css/main.css">
+</head>
 
-{% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
-    </p>
-{% endblock %}
+<body>
+	<h1 style="color: white; margin: 0;">Error 404</h1>
+	<br>
+	<h2 style="color: white; margin: 0;">Page not Found</h2>
+    <h3 style="color: white; margin: 0;"> The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.</h3>
+    <!-- TODO -->
+    
+</body>

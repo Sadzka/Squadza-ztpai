@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: auto
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -18,7 +18,16 @@ security:
             anonymous: true
             lazy: true
             provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: index
 
+            # login_throttling:
+            #    max_attempts: 5
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -27,6 +36,11 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+
+    role_hierarchy:
+        ROLE_MOD: ROLE_USER
+        ROLE_ADMIN: ROLE_MOD
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: /newArticle, roles: [ROLE_ADMIN, ROLE_MOD] }
+        - { path: /profile, roles: [ROLE_USER, ROLE_ADMIN, ROLE_MOD] }

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<head>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+</head>
+
+<body>	
+	{% include 'Utils/header_and_menu.html.twig' %}
+
+	<h1>AVATAR</h1>
+
+	{% include 'Utils/messages.html.twig' %}
+
+	<form action="#" method="POST" ENCTYPE="multipart/form-data">
+		<input type="file" name="file"> <br/>
+		<button type="submit">UPLOAD</button>
+	
+	</form>
+	
+	<div class="content"> 
+	</div>
+</body>

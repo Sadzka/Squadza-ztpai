@@ -1,8 +1,8 @@
 const form = document.querySelector('.login-form');
-const emailInput = form.querySelector('input[name="email"');
-const usernameInput = form.querySelector('input[name="username"');
-const passwordInput = form.querySelector('input[name="password"');
-const passwordCInput = form.querySelector('input[name="passwordC"');
+const emailInput = form.querySelector('input[name="registration_form[email]"]');
+const usernameInput = form.querySelector('input[name="registration_form[username]"');
+const passwordInput = form.querySelector('input[name="registration_form[plainPassword][first]"');
+const passwordCInput = form.querySelector('input[name="registration_form[plainPassword][second]"');
 
 function isEmail(email) {
     return /\S+@\S+\.\S+/.test(email);

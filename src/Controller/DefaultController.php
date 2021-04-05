@@ -9,7 +9,12 @@ class DefaultController extends AbstractController {
 
     public function index(string $path) : Response
     {
-        return $this->render($path . '.html.twig');
+        try {
+            return $this->render($path . '.html.twig');
+        }
+        catch (Exception $err) {
+            return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
+        }
     }
     
     /*

@@ -17,21 +17,30 @@ new_article:
     path: /newArticle
     controller: App\Controller\ArticleController::newArticle
 
+# TODO
+edit_article:
+    path: /editArticle/{number}
+    controller: App\Controller\ArticleController::editArticle
+
 # Security Controller
-login:
+app_login:
     path: /login
     controller: App\Controller\SecurityController::login
 
-register:
-    path: /register
-    controller: App\Controller\SecurityController::register
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
 
 profile:
     path: /profile
     controller: App\Controller\SecurityController::profile
 
-# Item Controller
+# Registration Contoller
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
 
+# Item Controller
 item:
     path: /item
     controller: App\Controller\ItemController::item
