@@ -42,5 +42,6 @@ security:
         ROLE_ADMIN: ROLE_MOD
 
     access_control:
-        - { path: /newArticle, roles: [ROLE_ADMIN, ROLE_MOD] }
-        - { path: /profile, roles: [ROLE_USER, ROLE_ADMIN, ROLE_MOD] }
+        - { path: /newArticle, roles: [ROLE_MOD] } # , ROLE_ADMIN ] }
+        - { path: /editArticle, roles: [ROLE_MOD] } # , ROLE_ADMIN ] }
+        - { path: /profile, roles: [ROLE_USER] } #, ROLE_ADMIN, ROLE_MOD ] }

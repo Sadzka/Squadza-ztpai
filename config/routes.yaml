@@ -17,7 +17,6 @@ new_article:
     path: /newArticle
     controller: App\Controller\ArticleController::newArticle
 
-# TODO
 edit_article:
     path: /editArticle/{number}
     controller: App\Controller\ArticleController::editArticle

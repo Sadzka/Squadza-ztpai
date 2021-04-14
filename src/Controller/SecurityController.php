@@ -18,6 +18,9 @@ class SecurityController extends AbstractController {
 	
 	public function profile()
 	{
+		/*
+			TODO
+			
 		if (Request::createFromGlobals()->getMethod() == 'POST'
 		&& is_uploaded_file( $_FILES['file']['tmp_name'])
 		&& $this->validateImage($_FILES['file']))
@@ -36,6 +39,7 @@ class SecurityController extends AbstractController {
 				$this->messages[] = 'Unknown error. Try again.';
 			}
 		}
+		*/
 	
 		return $this->render('security/profile.html.twig', ['messages' => $this->messages]);	
 	}
