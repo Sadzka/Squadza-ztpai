@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\ArticleComment;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ArticleController extends AbstractController
 {
@@ -14,17 +17,20 @@ class ArticleController extends AbstractController
     {
         if ($number <= 0) $number = 1;
 
-        $articles = $this->getDoctrine()
-        ->getRepository(Article::class)
-        ->findBy(
+        $repository = $this->getDoctrine()->getRepository(Article::class);
+        $articles = $repository->findBy(
             array(),
             array('date' => 'DESC'),
             self::newsPerPage,
             ($number - 1) * self::newsPerPage
         );
 
+        $totalPages = $repository->countBy();
+
         return $this->render('homepage.html.twig', [
             'articles' => $articles,
+            'totalPages' => ceil($totalPages/self::newsPerPage),
+            'currentPage' => $number
         ]);
     }
 

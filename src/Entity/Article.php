@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Article
      * @ORM\Column(type="text")
      */
     private $content;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="article")
+     */
+    private $articleComments;
+
+    public function __construct()
+    {
+        $this->articleComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class Article
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleComment[]
+     */
+    public function getArticleComments(): Collection
+    {
+        return $this->articleComments;
+    }
+
+    public function addArticleComment(ArticleComment $articleComment): self
+    {
+        if (!$this->articleComments->contains($articleComment)) {
+            $this->articleComments[] = $articleComment;
+            $articleComment->setArticleId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleComment(ArticleComment $articleComment): self
+    {
+        if ($this->articleComments->removeElement($articleComment)) {
+            // set the owning side to null (unless already changed)
+            if ($articleComment->getArticleId() === $this) {
+                $articleComment->setArticleId(null);
+            }
+        }
 
         return $this;
     }

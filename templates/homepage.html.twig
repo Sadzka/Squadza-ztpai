@@ -29,4 +29,56 @@
         </div>
     {% endfor %}
     </div>
+    <div class="nav-pagination-bottom">
+        <table class="nav-pagination">
+            <tr>
+                <td>
+                    {% if currentPage != 1 %}
+                    <a href="/page/1" rel="first">‹‹ First</a>&nbsp;
+                    <a href="/page/{{ currentPage - 1 }}" rel="previous">‹ Prev</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if currentPage == 1 %}
+                        <span class="enabled"><a href="/page/1">1</a></span>
+                    {% else %}
+                        <span><a href="/page/1">1</a></span>
+                    {% endif %}
+
+                    {% set st = currentPage - 2 %}
+                    {% set en = currentPage + 2 %}
+
+                    {% if st > 2 %}
+                        <span>...</span>
+                    {% endif %}
+
+                    {% for i in st .. en %}
+                        {% if i > 1 and i < totalPages %}
+                            {% if i == currentPage %}
+                                <span class="enabled"><a href="/page/{{i}}">{{ i }}</a></span>
+                            {% else %}
+                                <span><a href="/page/{{i}}">{{ i }}</a></span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if en < totalPages - 1 %}
+                        <span>...</span>
+                    {% endif %}
+                    
+                    {% if currentPage == totalPages %}
+                        <span class="enabled"><a href="/page/{{ totalPages }}">{{ totalPages }}</a></span>
+                    {% else %}
+                        <span><a href="/page/{{ totalPages }}">{{ totalPages }}</a></span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if currentPage != totalPages %}
+                    <a href="/page/{{ currentPage + 1 }}" rel="next">Next ›</a>&nbsp;
+                    <a href="/page/{{ totalPages }}" rel="last">Last »</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>

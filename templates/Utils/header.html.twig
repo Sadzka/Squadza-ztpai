@@ -1,4 +1,12 @@
 <header>
+
+    {% if app.user %}
+        <p id="userid" hidden>{{app.user.id}}</p>
+    {% for role in app.user.roles %}
+        <p id="userroles" hidden>{{role}}</p>
+    {% endfor %}
+    {% endif %}
+
     <embed class="logoheader" src=" {{ asset ('img/Squadza.svg') }} "/>
     <input class="searchheader" name="search" placeholder="Search player or guild..." >
     <div class="buttons-space-header">

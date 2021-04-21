@@ -5,6 +5,7 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -15,6 +16,51 @@ body {
     color: white;
     overflow-x: hidden;
     height: 100%;
+}
+
+.nav-pagination-bottom {
+    margin: 0 0 0 1.75em;
+    min-width: 600px;
+    width: calc(80% - 256px - 2em);
+}
+
+.nav-pagination {
+    margin: 1em 0;
+    border: 0;
+    cursor: default;
+}
+
+
+.nav-pagination td:first-child {
+    text-align: left;
+    width: 25%;
+}
+.enabled {
+    background-color: rgb(17, 40, 130);
+    color: white;
+}
+.nav-pagination td {
+    color: rgb(163, 163, 163);
+    text-align: center;
+    width: 50%;
+    border: 0;
+}
+
+.nav-pagination td span {
+    line-height: 30px;
+    padding: 4px 5px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.nav-pagination td a {
+    line-height: 30px;
+    padding: 4px 8px;
+    margin: 2px;
+    border-radius: 2px;
+    font-weight: 500 !important;
+    text-shadow: none !important;
+    white-space: nowrap;
 }
 
 
@@ -480,6 +526,7 @@ header {
 
 .inline-flex {
     display: flex;
+    align-items: center;
 }
 
 .add-comment {

@@ -19,6 +19,25 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function countBy(array $criteria = []) 
+    {
+        $persister = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName);
+        return $persister->count($criteria);
+    }
+
+/*
+    public function findByArticle($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.article_id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+*/
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -54,10 +56,18 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="user")
+     */
+    private $articlecomments;
+
+
     public function __construct() 
     {
         $this->avatar = 'default.png';
         $this->roles = ['{"role" : "ROLE_USER"}'];
+        $this->articleComments = new ArrayCollection();
+        $this->articlecomments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +179,35 @@ class User implements UserInterface
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
+    }
+
+    /**
+     * @return Collection|ArticleComment[]
+     */
+    public function getArticleComments(): Collection
+    {
+        return $this->articleComments;
+    }
+
+    public function addArticleComment(ArticleComment $articleComment): self
+    {
+        if (!$this->articleComments->contains($articleComment)) {
+            $this->articleComments[] = $articleComment;
+            $articleComment->setArticleIdUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleComment(ArticleComment $articleComment): self
+    {
+        if ($this->articleComments->removeElement($articleComment)) {
+            // set the owning side to null (unless already changed)
+            if ($articleComment->getArticleIdUserId() === $this) {
+                $articleComment->setArticleIdUserId(null);
+            }
+        }
+
+        return $this;
     }
 }

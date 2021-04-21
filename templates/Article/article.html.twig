@@ -1,14 +1,12 @@
 <!DOCTYPE HTML>
 <head>
     <link type="text/css" rel="stylesheet" href="{{ asset ('css/main.css') }}">
+    <script type="text/javascript" src=" {{ asset ('js/article.js') }} " defer></script>
 </head>
 
 <body>
-
 	{% include 'Utils/header_and_menu.html.twig' %}
     
-    <!-- TODO -->
-
     <div class="news-container">
         <div class="news news-full">
             <div class="news-content">
@@ -22,8 +20,54 @@
                 {{ article.getContent() }}
                 </div>
                 <br>
-                <!-- <a class="news-read-more" href="#">Read more...</a> -->
+
+                <div class="inline-flex">
+                    <h2 class="">Comments</h2>
+                    <div class="add-comment">
+                        {% if app.user %}
+                            <a href="#comments">Post a comment</a>
+                        {% else %}
+                            <a href="/login">Log in to post a comment</a>
+                        {% endif %}
+                    
+                    </div>
+                </div>
+
+                <div id="comments-container">
+                    <table>
+
+                    </table>
+                </div>
+
+                {% if app.user %}
+                    <div class="comment-edit-body" id="comments">
+                        <h2>Post a comment</h2>
+                        <textarea rows="10" class="comment-editbox" name="body-comment" maxlength="1024"></textarea>
+                        <div class="char-remains">Up to 1024 characters. 1024 characters remaining.</div>
+                        <input type="submit" value="Submit" class="button comment-button">
+                    </div>
+                {% else %}
+                    <h2>Comments</h2>
+                    <h3><a href="/login">Log in to post a comment</a></h2>
+                {% endif %}
+
             </div>
         </div>
     </div>
 </body>
+
+<template id="comment-template">
+	<tr>
+	<td class="vote-column" id="comment_id">
+		<p class="vote voteup" title="This comment is helpful."> ▲ </p>
+		<p class="score"> 0 </p>
+		<p class="vote votedown" title="This comment is not helpful."> ▼ </p>
+	</td>
+	<td class="comment-content">
+		<div class="comment-header">By {user} on {date}</div>		
+		<div class="comment-delete">Delete</div>
+		<div class="comment-text">Comment Content</div>
+		<div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
+	</td>
+    </tr>
+</template>
