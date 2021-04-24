@@ -61,6 +61,10 @@ class User implements UserInterface
      */
     private $articlecomments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleCommentLike::class, mappedBy="User")
+     */
+    private $articleCommentLikes;
 
     public function __construct() 
     {
@@ -68,6 +72,7 @@ class User implements UserInterface
         $this->roles = ['{"role" : "ROLE_USER"}'];
         $this->articleComments = new ArrayCollection();
         $this->articlecomments = new ArrayCollection();
+        $this->articleCommentLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,6 +211,33 @@ class User implements UserInterface
             if ($articleComment->getArticleIdUserId() === $this) {
                 $articleComment->setArticleIdUserId(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleCommentLike[]
+     */
+    public function getArticleCommentLikes(): Collection
+    {
+        return $this->articleCommentLikes;
+    }
+
+    public function addArticleCommentLike(ArticleCommentLike $articleCommentLike): self
+    {
+        if (!$this->articleCommentLikes->contains($articleCommentLike)) {
+            $this->articleCommentLikes[] = $articleCommentLike;
+            $articleCommentLike->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleCommentLike(ArticleCommentLike $articleCommentLike): self
+    {
+        if ($this->articleCommentLikes->removeElement($articleCommentLike)) {
+            $articleCommentLike->removeUser($this);
         }
 
         return $this;

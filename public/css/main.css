@@ -520,6 +520,12 @@ header {
     cursor: pointer;
     margin: 5px auto;
 }
+.voteup.clicked {
+    color: green;
+}
+.votedown.clicked {
+    color: red;
+}
 .vote:hover {
     opacity: 50%;
 }

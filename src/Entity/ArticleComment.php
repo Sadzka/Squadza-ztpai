@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleCommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -48,6 +50,11 @@ class ArticleComment
      */
     private $last_edit;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleCommentLike::class, mappedBy="ArticleComment")
+     */
+    private $articleCommentLikes;
+
     public function __construct(
         $articleId,
         $userId,
@@ -60,6 +67,8 @@ class ArticleComment
         $this->comment = $comment;
         $this->date = $date;
         $this->last_edit = $lastEdit;
+        $this->User = new ArrayCollection();
+        $this->articleCommentLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +132,58 @@ class ArticleComment
     public function setLastEdit(?\DateTimeInterface $last_edit): self
     {
         $this->last_edit = $last_edit;
+
+        return $this;
+    }
+
+    public function addUser(ArticleCommentLike $user): self
+    {
+        if (!$this->User->contains($user)) {
+            $this->User[] = $user;
+            $user->setArticleComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(ArticleCommentLike $user): self
+    {
+        if ($this->User->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getArticleComment() === $this) {
+                $user->setArticleComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleCommentLike[]
+     */
+    public function getArticleCommentLikes(): Collection
+    {
+        return $this->articleCommentLikes;
+    }
+
+    public function addArticleCommentLike(ArticleCommentLike $articleCommentLike): self
+    {
+        if (!$this->articleCommentLikes->contains($articleCommentLike)) {
+            $this->articleCommentLikes[] = $articleCommentLike;
+            $articleCommentLike->setArticleComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleCommentLike(ArticleCommentLike $articleCommentLike): self
+    {
+        if ($this->articleCommentLikes->removeElement($articleCommentLike)) {
+            // set the owning side to null (unless already changed)
+            if ($articleCommentLike->getArticleComment() === $this) {
+                $articleCommentLike->setArticleComment(null);
+            }
+        }
 
         return $this;
     }

@@ -21,6 +21,7 @@ edit_article:
     path: /editArticle/{number}
     controller: App\Controller\ArticleController::editArticle
 
+# ArticleComment Controller
 add_article_comment:
     path: /addArticleComment
     controller: App\Controller\ArticleCommentController::addComment
@@ -28,6 +29,16 @@ add_article_comment:
 get_article_comments:
     path: /getArticleComments/{article_id}
     controller: App\Controller\ArticleCommentController::getComments
+
+
+# ArticleCommentVote Controller
+set_article_comment_vote:
+    path: /setArticleCommentVote
+    controller: App\Controller\ArticleCommentLikeController::setArticleCommentVote
+    
+get_article_comment_vote:
+    path: /getUserArticleCommentVote/{comment_id}
+    controller: App\Controller\ArticleCommentLikeController::getUserArticleCommentVote
 
 # Security Controller
 app_login:
