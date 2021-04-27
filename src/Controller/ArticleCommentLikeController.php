@@ -15,26 +15,27 @@ class ArticleCommentLikeController extends AbstractController
     public function setArticleCommentVote(Request $request): Response
     {
         $data = $request->toArray();
+        $value = intval($data['value']);
+        $articleCommentRepository = $this->getDoctrine()->getRepository(ArticleComment::class);
+        $articleCommentLikeRepository = $this->getDoctrine()->getRepository(ArticleCommentLike::class);
+        $entityManager  = $this->getDoctrine()->getManager();
 
-        $comment = $this->getDoctrine()->getRepository(ArticleComment::class)->findOneById($data['comment_id']);
+        $comment = $articleCommentRepository->findOneById($data['comment_id']);
         if(!$comment) {
             throw $this->createNotFoundException('No article found for id '. $id);
         }
-        
-        $commentLikes = $this->getDoctrine()->getRepository(ArticleCommentLike::class)->findByArticleComment($comment);
 
-        $entityManager  = $this->getDoctrine()->getManager();
-
-        // Check if exists
-        $commentLike = $this->getDoctrine()->getRepository(ArticleCommentLike::class)->findOneBy([
+        $commentLike = $articleCommentLikeRepository->findOneBy([
             'User' => $this->getUser(),
             'articleComment' => $comment,
         ]);
 
-        $value = intval($data['value']);
         if ($commentLike) { //exist
-            $commentLike->setValue($value);
-            $response_data = $value * 2;
+            if ($value == $commentLike->getValue()) { // remove reaction
+                $commentLike->setValue(0);
+            } else {
+                $commentLike->setValue($value);
+            }
         }
         else { // create new
             $articleCommentLike = new ArticleCommentLike();
@@ -47,7 +48,11 @@ class ArticleCommentLikeController extends AbstractController
 
         $entityManager->flush();
 
-        $response = new JsonResponse(json_encode(["score" => $this->sumLikes($commentLikes)]), Response::HTTP_OK, ['content-type' => 'application/json']);
+        $score = $articleCommentLikeRepository->sumCommentLikes($comment);
+        
+        $commentLikes = $articleCommentLikeRepository->findByArticleComment($comment);
+
+        $response = new JsonResponse(json_encode(["score" => $score]), Response::HTTP_OK, ['content-type' => 'application/json']);
 
         return $response;
     }
@@ -66,14 +71,5 @@ class ArticleCommentLikeController extends AbstractController
         $response = new JsonResponse(json_encode(["comment_id" => $comment_id, "value" => $data]), Response::HTTP_OK, ['content-type' => 'application/json']);
 
         return $response;
-    }
-    
-    private function sumLikes($likes)
-    {
-        $score = 0;
-        foreach ($likes as $like) {
-            $score += $like->getValue();
-        }
-        return $score;
     }
 }

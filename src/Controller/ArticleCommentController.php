@@ -33,33 +33,47 @@ class ArticleCommentController extends AbstractController
         $entityManager->persist($articleComment);
         $entityManager->flush();
 
-        $response = new JsonResponse('OK', Response::HTTP_OK, ['content-type' => 'application/json']);
+        $data = [
+            'date' => ['date' => "few seconds ago"],
+            'content' => $data['comment'],
+            'author' => $this->getUser()->getUsername(),
+            'comment_id' => $articleComment->getId()
+        ];
+        $response = new JsonResponse(json_encode($data), Response::HTTP_OK, ['content-type' => 'application/json']);
 
         return $response;
     }
 
     public function getComments(Request $request, $article_id) : JsonResponse
     {
-        $article = $this->getDoctrine()->getRepository(Article::class)->findOneById($article_id);
-        $comments = $this->getDoctrine()->getRepository(ArticleComment::class)->findByArticle($article);
+        $articleRepository = $this->getDoctrine()->getRepository(Article::class);
+        $articleCommentRepository = $this->getDoctrine()->getRepository(ArticleComment::class);
+        $articleCommentLikeRepository = $this->getDoctrine()->getRepository(ArticleCommentLike::class);
+
+        $article = $articleRepository->findOneById($article_id);
+        $comments = $articleCommentRepository->findByArticle($article);
 
         $data = [];
 
-        foreach ($comments as $c) {
-            $commentLikes = $this->getDoctrine()->getRepository(ArticleCommentLike::class)->findByArticleComment($c);
+        foreach ($comments as $comment) {
+            $commentLikes = $articleCommentLikeRepository->findByArticleComment($comment);
             
             $editable = false;
             if ( $this->getUser() != null) {
-                $editable = ($c->getUser()->getId() == $this->getUser()->getId() ? true : false);
+                $editable = ($comment->getUser()->getId() == $this->getUser()->getId() ? true : false);
             }
+
+            $score = $articleCommentLikeRepository->sumCommentLikes($comment);
+
             array_push($data, [
-                "comment_id" => $c->getId(),
-                "content" => $c->getComment(),
-                "author" => $c->getUser()->getUsername(),
-                "date" => $c->getDate(),
-                "last_edit" => $c->getLastEdit(),
+                "comment_id" => $comment->getId(),
+                "content" => $comment->getComment(),
+                "author" => $comment->getUser()->getUsername(),
+                "date" => $comment->getDate(),
+                "last_edit" => $comment->getLastEdit(),
                 "editable" => $editable,
-                "score" => $this->sumLikes($commentLikes)
+                //"score" => $this->getDoctrine()->getRepository(ArticleCommentLike::class)->sumLikes($comment)
+                "score" => $score
             ]);
         }
         //var_dump(json_encode($data));
@@ -68,12 +82,32 @@ class ArticleCommentController extends AbstractController
         return $response;
     }
 
-    private function sumLikes($likes)
+    public function deleteComment(Request $request, $comment_id) : JsonResponse
     {
-        $score = 0;
-        foreach ($likes as $like) {
-            $score += $like->getValue();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        $entityManager  = $this->getDoctrine()->getManager();
+        $comment = $this->getDoctrine()->getRepository(ArticleComment::class)->findOneById($comment_id);
+        $user = $this->getUser();
+
+        if (!$comment) {
+            throw $this->createNotFoundException('No comment found for id '. $comment_id);
         }
-        return $score;
+
+        if (! ($user == $comment->getUser()
+        || in_array($user->getRoles(), ["ROLE_ADMIN", "ROLE_MOD"])) )
+            return new JsonResponse(json_encode("No Permissions"), Response::HTTP_OK, ['content-type' => 'application/json']);
+
+        // drop foreign keys first
+        $commentLikes = $this->getDoctrine()->getRepository(ArticleCommentLike::class)->findByArticleComment($comment);
+        foreach ($commentLikes as $commentLike) {
+            $entityManager->remove($commentLike);
+        }
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $response = new JsonResponse(json_encode("OK"), Response::HTTP_OK, ['content-type' => 'application/json']);
+        return $response;
     }
 }

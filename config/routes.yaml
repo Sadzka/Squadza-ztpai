@@ -30,6 +30,10 @@ get_article_comments:
     path: /getArticleComments/{article_id}
     controller: App\Controller\ArticleCommentController::getComments
 
+delete_article_comments:
+    path: /deleteArticleComment/{comment_id}
+    controller: App\Controller\ArticleCommentController::deleteComment
+
 
 # ArticleCommentVote Controller
 set_article_comment_vote:

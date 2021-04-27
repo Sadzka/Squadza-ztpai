@@ -37,9 +37,10 @@ if (commentSubmit) {
             })
             .then(response => response.json())
             .then(function(response) {
+                response = JSON.parse(response);
                 response.score = 0;
                 response.comment = editbox.value;
-                response.editable = 1
+                response.editable = 1;
                 createComment(response);
                 bindStatisticsButtons();
                 editbox.value = "";
@@ -88,7 +89,8 @@ function createComment(comment) {
     const id = clone.querySelector("#comment_id");
     id.id = comment.comment_id;
 
-    clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">' + comment.author + '</span> <a> on ' + comment.date.date;
+    clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">'
+    + comment.author + '</span> <a> on ' + comment.date.date;
     clone.querySelector(".comment-text").innerHTML = comment.content;
 
     let deleteBtn = clone.querySelector(".comment-delete");
@@ -170,9 +172,8 @@ function vote(button, value) {
         response = JSON.parse(response);
 
         const score = container.querySelector('.score');
-        console.log(score.hasAttribute('class', 'clicked'));
 
-        console.log(response);
+        //console.log(response);
 
         score.innerHTML = response.score;
         
@@ -254,6 +255,27 @@ function setVoteButtonsCollors(buttons) {
             changeVoteButtonColors(button);
         }
     });
+}
+
+function deleteComment(comment_id) {
+    fetch(`/deleteArticleComment/${comment_id}`, {
+        method: "DELETE",
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(function(response) {
+        response = JSON.parse(response);
+        const comments = document.querySelectorAll('.vote-column');
+
+        comments.forEach( comment => {
+            if (comment.id == comment_id) {
+                comment.parentNode.remove();
+            }
+        });
+    })
+    .catch(function(error) {
+        console.log(error);
+    });   
 }
 
 getArticleComments();
