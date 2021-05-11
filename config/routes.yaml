@@ -21,28 +21,28 @@ edit_article:
     path: /editArticle/{number}
     controller: App\Controller\ArticleController::editArticle
 
-# ArticleComment Controller
+# Comment Controller
 add_article_comment:
-    path: /addArticleComment
-    controller: App\Controller\ArticleCommentController::addComment
+    path: /addComment
+    controller: App\Controller\CommentController::addComment
 
 get_article_comments:
-    path: /getArticleComments/{article_id}
-    controller: App\Controller\ArticleCommentController::getComments
+    path: /getComments/{article_id}
+    controller: App\Controller\CommentController::getComments
 
 delete_article_comments:
-    path: /deleteArticleComment/{comment_id}
-    controller: App\Controller\ArticleCommentController::deleteComment
+    path: /deleteComment/{comment_id}
+    controller: App\Controller\CommentController::deleteComment
 
 
-# ArticleCommentVote Controller
+# CommentVote Controller
 set_article_comment_vote:
-    path: /setArticleCommentVote
-    controller: App\Controller\ArticleCommentLikeController::setArticleCommentVote
+    path: /setCommentVote
+    controller: App\Controller\CommentLikeController::setCommentVote
     
 get_article_comment_vote:
-    path: /getUserArticleCommentVote/{comment_id}
-    controller: App\Controller\ArticleCommentLikeController::getUserArticleCommentVote
+    path: /getUserCommentVote/{comment_id}
+    controller: App\Controller\CommentLikeController::getUserCommentVote
 
 # Security Controller
 app_login:

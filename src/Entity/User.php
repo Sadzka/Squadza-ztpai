@@ -56,10 +56,28 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentLike::class, mappedBy="user")
+     */
+    private $commentLikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ItemComment::class, mappedBy="user")
+     */
+    private $itemComments;
+
     public function __construct() 
     {
         $this->avatar = 'default.png';
         $this->roles = ['{"role" : "ROLE_USER"}'];
+        $this->comments = new ArrayCollection();
+        $this->commentLikes = new ArrayCollection();
+        $this->itemComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,5 +189,95 @@ class User implements UserInterface
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentLike[]
+     */
+    public function getCommentLikes(): Collection
+    {
+        return $this->commentLikes;
+    }
+
+    public function addCommentLike(CommentLike $commentLike): self
+    {
+        if (!$this->commentLikes->contains($commentLike)) {
+            $this->commentLikes[] = $commentLike;
+            $commentLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentLike(CommentLike $commentLike): self
+    {
+        if ($this->commentLikes->removeElement($commentLike)) {
+            // set the owning side to null (unless already changed)
+            if ($commentLike->getUser() === $this) {
+                $commentLike->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ItemComment[]
+     */
+    public function getItemComments(): Collection
+    {
+        return $this->itemComments;
+    }
+
+    public function addItemComment(ItemComment $itemComment): self
+    {
+        if (!$this->itemComments->contains($itemComment)) {
+            $this->itemComments[] = $itemComment;
+            $itemComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemComment(ItemComment $itemComment): self
+    {
+        if ($this->itemComments->removeElement($itemComment)) {
+            // set the owning side to null (unless already changed)
+            if ($itemComment->getUser() === $this) {
+                $itemComment->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

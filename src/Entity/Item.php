@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -146,6 +148,16 @@ class Item
      * @ORM\Column(type="integer")
      */
     private $socket_bonus_value;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ItemComment::class, mappedBy="item")
+     */
+    private $itemComments;
+
+    public function __construct()
+    {
+        $this->itemComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -460,6 +472,36 @@ class Item
     public function setSocketBonusValue(int $socket_bonus_value): self
     {
         $this->socket_bonus_value = $socket_bonus_value;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ItemComment[]
+     */
+    public function getItemComments(): Collection
+    {
+        return $this->itemComments;
+    }
+
+    public function addItemComment(ItemComment $itemComment): self
+    {
+        if (!$this->itemComments->contains($itemComment)) {
+            $this->itemComments[] = $itemComment;
+            $itemComment->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemComment(ItemComment $itemComment): self
+    {
+        if ($this->itemComments->removeElement($itemComment)) {
+            // set the owning side to null (unless already changed)
+            if ($itemComment->getItem() === $this) {
+                $itemComment->setItem(null);
+            }
+        }
 
         return $this;
     }

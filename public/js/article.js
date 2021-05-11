@@ -30,7 +30,7 @@ if (commentSubmit) {
                 "article_id" : article_id,
                 "comment" : editbox.value
             };
-            fetch("/addArticleComment", {
+            fetch("/addComment", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -55,7 +55,7 @@ if (commentSubmit) {
 function getArticleComments() {
     let article_id = window.location.pathname.split('/')[2];
 
-    fetch("/getArticleComments/" + article_id, {
+    fetch("/getComments/" + article_id, {
         method: "GET",
         headers: {'Content-Type': 'application/json'}
     }).then(function (response) {
@@ -160,7 +160,7 @@ function vote(button, value) {
         value : value
     };
 
-    fetch(`/setArticleCommentVote`, {
+    fetch(`/setCommentVote`, {
         method: "UPDATE",
         headers: {
             'Content-Type': 'application/json'
@@ -215,7 +215,7 @@ function updateCommentUserVotes() {
     x.forEach(element => {
         let id = element.getAttribute('id');
         
-        fetch(`/getUserArticleCommentVote/${id}`, {
+        fetch(`/getUserCommentVote/${id}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
@@ -258,7 +258,7 @@ function setVoteButtonsCollors(buttons) {
 }
 
 function deleteComment(comment_id) {
-    fetch(`/deleteArticleComment/${comment_id}`, {
+    fetch(`/deleteComment/${comment_id}`, {
         method: "DELETE",
         headers: { 'Content-Type': 'application/json' }
     })
