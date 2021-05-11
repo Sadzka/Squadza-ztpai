@@ -56,23 +56,10 @@ class User implements UserInterface
      */
     private $plainPassword;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="user")
-     */
-    private $articlecomments;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ArticleCommentLike::class, mappedBy="User")
-     */
-    private $articleCommentLikes;
-
     public function __construct() 
     {
         $this->avatar = 'default.png';
         $this->roles = ['{"role" : "ROLE_USER"}'];
-        $this->articleComments = new ArrayCollection();
-        $this->articlecomments = new ArrayCollection();
-        $this->articleCommentLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,62 +171,5 @@ class User implements UserInterface
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
-    }
-
-    /**
-     * @return Collection|ArticleComment[]
-     */
-    public function getArticleComments(): Collection
-    {
-        return $this->articleComments;
-    }
-
-    public function addArticleComment(ArticleComment $articleComment): self
-    {
-        if (!$this->articleComments->contains($articleComment)) {
-            $this->articleComments[] = $articleComment;
-            $articleComment->setArticleIdUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticleComment(ArticleComment $articleComment): self
-    {
-        if ($this->articleComments->removeElement($articleComment)) {
-            // set the owning side to null (unless already changed)
-            if ($articleComment->getArticleIdUserId() === $this) {
-                $articleComment->setArticleIdUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ArticleCommentLike[]
-     */
-    public function getArticleCommentLikes(): Collection
-    {
-        return $this->articleCommentLikes;
-    }
-
-    public function addArticleCommentLike(ArticleCommentLike $articleCommentLike): self
-    {
-        if (!$this->articleCommentLikes->contains($articleCommentLike)) {
-            $this->articleCommentLikes[] = $articleCommentLike;
-            $articleCommentLike->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticleCommentLike(ArticleCommentLike $articleCommentLike): self
-    {
-        if ($this->articleCommentLikes->removeElement($articleCommentLike)) {
-            $articleCommentLike->removeUser($this);
-        }
-
-        return $this;
     }
 }
