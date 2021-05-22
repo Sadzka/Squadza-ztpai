@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,6 +19,49 @@ class ItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Item::class);
     }
+
+    public function findItems(
+        $name       = '',
+        $ilvmin     = 1,
+        $ilvmax     = 9999,
+        $reqlvmin   = 1,
+        $reqlvmax   = 9999,
+        $slots       = [],
+        $rarities     = []
+    ) {
+        $name = '%'.$name.'%';
+        if ($ilvmin == '') $ilvmin = 0;
+        if ($ilvmax == '') $ilvmax = 9999;
+        if ($reqlvmin == '') $reqlvmin = 0;
+        if ($reqlvmax == '') $reqlvmax = 9999;
+        if ($slots == '') $slots = [];
+        if ($rarities == '') $rarities = [];
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->andWhere('a.item_level BETWEEN :ilvmin and :ilvmax')
+            ->andWhere('a.required_level BETWEEN :reqlvmin and :reqlvmax')
+            ->setParameter(':name', $name)
+            ->setParameter(':ilvmin', $ilvmin)
+            ->setParameter(':ilvmax', $ilvmax)
+            ->setParameter(':reqlvmin', $reqlvmin)
+            ->setParameter(':reqlvmax', $reqlvmax);
+
+        if ($slots != []) {
+            $query
+                ->andWhere('a.slot IN (:slots)')
+                ->setParameter('slots', $slots);
+        }
+        if ($rarities != []) {
+            $query
+                ->andWhere('a.quality IN (:rarities)')
+                ->setParameter('rarities', $rarities);
+        }
+
+        return $query->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Item[] Returns an array of Item objects

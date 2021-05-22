@@ -1,0 +1,30 @@
+<div class="inline-flex">
+    <h2 class="">Comments</h2>
+    <div class="add-comment">
+        {% if app.user %}
+            <a href="#comments">Post a comment</a>
+        {% else %}
+            <a href="/login">Log in to post a comment</a>
+        {% endif %}
+
+    </div>
+</div>
+
+<div id="comments-container">
+    <table>
+
+    </table>
+</div>
+
+{% if app.user %}
+    <div class="comment-edit-body" id="comments">
+        <h2 id="post_comment_title">Post a comment</h2>
+        <textarea rows="10" class="comment-editbox" name="body-comment" maxlength="1024"></textarea>
+        <div class="char-remains">Up to 1024 characters. 1024 characters remaining.</div>
+        <input type="submit" value="Submit" class="button comment-button">
+        <input type="submit" value="Cancel" class="button comment-button comment-cancel">
+    </div>
+{% else %}
+    <h2>Comments</h2>
+    <h2><a href="/login">Log in to post a comment</a></h2>
+{% endif %}

@@ -8,6 +8,7 @@
 
     <div class="news-container">
 
+
     {% for article in articles %}
         <div class="news">
             <img class="news-icon" src=" {{ asset ("uploads/articles-icons/" ~ article.getImage() ) }} ">
@@ -76,6 +77,15 @@
                     {% if currentPage != totalPages %}
                     <a href="/page/{{ currentPage + 1 }}" rel="next">Next ›</a>&nbsp;
                     <a href="/page/{{ totalPages }}" rel="last">Last »</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {%  if app.user %}
+                    {% if "ROLE_MOD" in app.user.roles or "ROLE_ADMIN" in app.user.roles %}
+                        <div class="add-comment">
+                            <a href="/newArticle">Add Article</a>
+                        </div>
+                    {% endif %}
                     {% endif %}
                 </td>
             </tr>

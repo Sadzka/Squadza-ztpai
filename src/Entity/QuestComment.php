@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ItemCommentRepository;
+use App\Repository\QuestCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ItemCommentRepository::class)
+ * @ORM\Entity(repositoryClass=QuestCommentRepository::class)
  */
-class ItemComment
+class QuestComment
 {
     /**
      * @ORM\Id
@@ -18,9 +18,9 @@ class ItemComment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="itemComments")
+     * @ORM\ManyToOne(targetEntity=Quest::class, inversedBy="questComments")
      */
-    private $item;
+    private $quest;
 
     /**
      * @ORM\OneToOne(targetEntity=Comment::class, cascade={"persist", "remove"})
@@ -32,24 +32,24 @@ class ItemComment
         return $this->id;
     }
 
-    public function getItem(): ?Item
+    public function getQuest(): ?Quest
     {
-        return $this->item;
+        return $this->quest;
     }
 
-    public function setItem(?Item $item): self
+    public function setQuest(?Quest $quest): self
     {
-        $this->item = $item;
+        $this->quest = $quest;
 
         return $this;
     }
 
-    public function getComment(): ?comment
+    public function getComment(): ?Comment
     {
         return $this->comment;
     }
 
-    public function setComment(?comment $comment): self
+    public function setComment(?Comment $comment): self
     {
         $this->comment = $comment;
 

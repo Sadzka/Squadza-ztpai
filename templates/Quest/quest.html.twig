@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+	<title>Arikazike</title>
+	<link type="text/css" rel="stylesheet" href="{{ asset ('css/main.css') }} ">
+	<link type="text/css" rel="stylesheet" href="{{ asset ('css/items.css') }} ">
+
+	<script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+	<script type="text/javascript" src=" {{ asset ('js/quest.js') }} " defer></script>
+
+	<div id="comment_type">quest</div>
+</head>
+
+<body>
+
+	{% include 'Utils/header_and_menu.html.twig' %}
+
+	<div class="search-item-tooltip-container">
+		{% include 'quest/searchQuest.html.twig' %}
+		<div class="itemtooltip">
+			{% include 'quest/renderQuest.html.twig' %}
+		</div>
+	</div>
+
+	<div class="search-result-container" id="search-result-container">
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Required Level</th> 
+				<th>Start</th>
+				<th>End</th>
+				<th>Rewards</th>
+			</tr>
+		</table>
+	</div>
+
+	<div class="comment-container">
+		<div class="news news-full">
+			<div class="news-content">
+			{% include 'Comment/comment.html.twig' %}
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<template id="quest-template">
+	<tr>
+		<th id="qname"><a href="#" class="questref">Name</a></th>
+		<th id="rlv">Required Level</th>
+		<th id="start"><a href="#" class="npcref">Start</a></th>
+		<th id="end"><a href="#" class="npcref">End</a></th>
+
+		<th class="moneys" id="rewards">
+			<p class="money m-gold" />
+			<p class="money m-silver" />
+			<p class="money m-copper" />
+		</th>
+	</tr>
+</template>
+
+{% include 'Comment/commentTemplate.html.twig' %}

@@ -19,7 +19,7 @@ body {
 }
 
 .nav-pagination-bottom {
-    margin: 0 0 0 1.75em;
+    margin-left: 5%;
     min-width: 600px;
     width: calc(80% - 256px - 2em);
 }
@@ -326,6 +326,10 @@ header {
     color:#09C;
 }
 
+.comment-container {
+    margin: 0em 2em;
+
+}
 /* News */
 .news-container {
     display: grid;
@@ -493,8 +497,15 @@ header {
     display: flex;
 }
 
+.npcref {
+    color: rgb(255, 176, 25);
+}
+.questref {
+     color: rgb(255, 196, 45);
+}
+
 .search-result-container {
-    margin: 2em 2em 10em 2em;
+    margin: 2em 2em 2em 2em;
     display: none;
 }
 
@@ -546,7 +557,7 @@ header {
 }
 
 .comment-text {
-    padding: 5px 0;
+    padding: 5px 0 8px 0;
 }
 
 #comment-container {
@@ -555,6 +566,7 @@ header {
 }
 
 .comment-content {
+    position: relative;
     width: 100%;
     vertical-align: top;
     padding: 10px;
@@ -567,12 +579,17 @@ header {
 }
 
 .comment-edit {
+    position: absolute;
+    bottom: 4px;
     font-size: 0.8em;
-    vertical-align: bottom;
     padding-top: 4px;
     font-style: italic;
+    right: 10px;
 }
 
+#comment_type {
+    display: none;
+}
 .comment-edit-body {
     font-size: 13px;
 }
@@ -596,16 +613,61 @@ header {
     float: right;
     margin: 5px 0;
 }
-.comment-delete {
+.comment-delete,
+.comment-edition {
     color: red;
     float: right;
     text-decoration: underline;
     cursor: pointer;
     display: none;
+    padding: 0 0.5em;
+}
+.comment-edition {
+    color: white;
+}
+.comment-cancel {
+    background-color: rgb(251, 38, 38);
 }
 
 .article-edit-body {
     margin: 2em 2em 10em 2em;
+}
+
+.quest {
+    font-size: 0.75em;
+    line-height: 1.3em;
+    padding: 2px 4px 0px 1em;
+    width: 32em;
+    color: white;
+    font-weight: 400;
+}
+
+/*** Gold ***/
+
+.moneys {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.moneys-quest {
+    justify-content: left;
+}
+
+.money{
+    margin: 0;
+    padding-left: 1.4em;
+}
+
+.m-gold {
+    background: url(../img/money/money-gold.gif) no-repeat left center; background-size: 1.20em;
+}
+.m-silver {
+    background: url(../img/money/money-silver.gif) no-repeat left center; background-size: 1.20em;
+}
+.m-copper {
+    background: url(../img/money/money-copper.gif) no-repeat left center; background-size: 1.20em;
 }
 
 /* Mobile */

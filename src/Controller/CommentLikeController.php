@@ -14,6 +14,11 @@ class CommentLikeController extends AbstractController
 {
     public function setCommentVote(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return new JsonResponse("Unauthorized", Response::HTTP_UNAUTHORIZED, ['content-type' => 'application/json']);
+        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $data = $request->toArray();
         $value = intval($data['value']);
 
@@ -21,9 +26,10 @@ class CommentLikeController extends AbstractController
         $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
         $commentLikeRepository = $this->getDoctrine()->getRepository(CommentLike::class);
 
-        $comment = $commentRepository->findOneById($data['comment_id']);
+        $id = $data['comment_id'];
+        $comment = $commentRepository->findOneById($id);
         if(!$comment) {
-            throw $this->createNotFoundException('No article found for id '. $id);
+            return new JsonResponse("Bad Request", Response::HTTP_BAD_REQUEST, ['content-type' => 'application/json']);
         }
 
         $commentLike = $commentLikeRepository->findOneBy([
@@ -53,13 +59,15 @@ class CommentLikeController extends AbstractController
         
         $commentLikes = $commentLikeRepository->findByComment($comment);
 
-        $response = new JsonResponse(json_encode(["score" => $score]), Response::HTTP_OK, ['content-type' => 'application/json']);
-
-        return $response;
+        return new JsonResponse(json_encode(["score" => $score]), Response::HTTP_OK, ['content-type' => 'application/json']);
+;
     }
 
     public function getUserCommentVote(Request $request, $comment_id): Response
     {
+        if (!$this->getUser()) {
+            return new JsonResponse("Unauthorized", Response::HTTP_UNAUTHORIZED, ['content-type' => 'application/json']);
+        }
         $comment = $this->getDoctrine()->getRepository(comment::class)->findOneById($comment_id);
 
         $commentLikes = $this->getDoctrine()->getRepository(CommentLike::class)->findOneBy([
@@ -70,8 +78,12 @@ class CommentLikeController extends AbstractController
         $data = 0;
         if ($commentLikes)
             $data = $commentLikes->getValue();
-        $response = new JsonResponse(json_encode(["comment_id" => $comment_id, "value" => $data]), Response::HTTP_OK, ['content-type' => 'application/json']);
 
-        return $response;
+        return new JsonResponse(
+            json_encode(["comment_id" => $comment_id,
+            "value" => $data]),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
     }
 }

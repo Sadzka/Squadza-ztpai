@@ -22,17 +22,21 @@ edit_article:
     controller: App\Controller\ArticleController::editArticle
 
 # Comment Controller
-add_article_comment:
-    path: /addComment
+add_comment:
+    path: /addComment/{type}
     controller: App\Controller\CommentController::addComment
 
-get_article_comments:
-    path: /getComments/{article_id}
+get_comments:
+    path: /getComments/{type}/{type_id}
     controller: App\Controller\CommentController::getComments
 
-delete_article_comments:
+delete_comments:
     path: /deleteComment/{comment_id}
     controller: App\Controller\CommentController::deleteComment
+
+edit_comments:
+    path: /editComment/{comment_id}
+    controller: App\Controller\CommentController::editComment
 
 
 # CommentVote Controller
@@ -66,6 +70,27 @@ register:
 item:
     path: /item
     controller: App\Controller\ItemController::item
+
+item_info:
+    path: /item/{item_id}
+    controller: App\Controller\ItemController::item_info
+
+serach_items:
+    path: /searchItems
+    controller: App\Controller\ItemController::searchItems
+
+# Quest Controller
+quest:
+    path: /quest
+    controller: App\Controller\QuestController::quest
+
+quest_info:
+    path: /quest/{quest_id}
+    controller: App\Controller\QuestController::quest_info
+
+serach_quests:
+    path: /searchQuests
+    controller: App\Controller\QuestController::searchQuests
 
 # Default Controller
 index_path:

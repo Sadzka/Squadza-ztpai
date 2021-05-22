@@ -154,6 +154,11 @@ class Item
      */
     private $itemComments;
 
+    public function toJson()
+    {
+        return json_encode(get_object_vars($this));
+    }
+
     public function __construct()
     {
         $this->itemComments = new ArrayCollection();
@@ -284,6 +289,13 @@ class Item
         return $this;
     }
 
+    public function getDps()
+    {
+        if (!$this->damage_min || !$this->damage_max || !$this->speed)
+            return null;
+        return ($this->damage_min + $this->damage_max)/$this->speed;
+    }
+
     public function getSpeed(): ?float
     {
         return $this->speed;
@@ -318,6 +330,16 @@ class Item
         $this->sell_price = $sell_price;
 
         return $this;
+    }
+
+    public function getStats()
+    {
+        return [
+            ['stat' => $this->stat_type1, 'value' => $this->stat_value1],
+            ['stat' => $this->stat_type2, 'value' => $this->stat_value2],
+            ['stat' => $this->stat_type3, 'value' => $this->stat_value3],
+            ['stat' => $this->stat_type4, 'value' => $this->stat_value4]
+        ];
     }
 
     public function getStatType1(): ?string
@@ -416,6 +438,15 @@ class Item
         return $this;
     }
 
+    public function getSockets()
+    {
+        return [
+            $this->socket1,
+            $this->socket1,
+            $this->socket1
+        ];
+    }
+
     public function getSocket1(): ?string
     {
         return $this->socket1;
@@ -452,6 +483,13 @@ class Item
         return $this;
     }
 
+    public function getSocketBonus()
+    {
+        return [
+            "value" => $this->socket_bonus_value,
+            "stat" => $this->socket_bonus_type,
+        ];
+    }
     public function getSocketBonusType(): ?string
     {
         return $this->socket_bonus_type;

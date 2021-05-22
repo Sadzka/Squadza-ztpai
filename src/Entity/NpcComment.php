@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ItemCommentRepository;
+use App\Repository\NpcCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ItemCommentRepository::class)
+ * @ORM\Entity(repositoryClass=NpcCommentRepository::class)
  */
-class ItemComment
+class NpcComment
 {
     /**
      * @ORM\Id
@@ -18,9 +18,9 @@ class ItemComment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="itemComments")
+     * @ORM\ManyToOne(targetEntity=Npc::class, inversedBy="comment")
      */
-    private $item;
+    private $npc;
 
     /**
      * @ORM\OneToOne(targetEntity=Comment::class, cascade={"persist", "remove"})
@@ -32,24 +32,24 @@ class ItemComment
         return $this->id;
     }
 
-    public function getItem(): ?Item
+    public function getNpc(): ?Npc
     {
-        return $this->item;
+        return $this->npc;
     }
 
-    public function setItem(?Item $item): self
+    public function setNpc(?Npc $npc): self
     {
-        $this->item = $item;
+        $this->npc = $npc;
 
         return $this;
     }
 
-    public function getComment(): ?comment
+    public function getComment(): ?Comment
     {
         return $this->comment;
     }
 
-    public function setComment(?comment $comment): self
+    public function setComment(?Comment $comment): self
     {
         $this->comment = $comment;
 

@@ -17,6 +17,7 @@ body {
 	float: right;
 }
 .itemtooltip {
+	display: flex;
 	margin-top: 2em;
 	margin-left: 1em;
 }

@@ -45,6 +45,3 @@ security:
         - { path: /newArticle, roles: [ROLE_MOD] } # , ROLE_ADMIN ] }
         - { path: /editArticle, roles: [ROLE_MOD] } # , ROLE_ADMIN ] }
         - { path: /profile, roles: [ROLE_USER] } #, ROLE_ADMIN, ROLE_MOD ] }
-        - { path: /addComment, roles: [ROLE_USER] }
-        - { path: /setArticleCommentVote, roles: [ROLE_USER] }
-        - { path: /getUserArticleCommentVote, roles: [ROLE_USER] }

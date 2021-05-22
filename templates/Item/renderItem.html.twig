@@ -1,6 +1,8 @@
+
+{% if item is defined %}
 <p class="iconlarge">
-	<img src={{ asset("public/img/icons/itemborder.png") }} />
-	<img class="itemicon" src= {{ asset("public/img/icons/ ~ item.getIcon() ~ .jpg") }} />
+	<img src={{ asset("img/icons/itemborder.png") }} />
+	<img class="itemicon" src= {{ asset("img/icons/" ~ item.getIcon() ~ ".jpg") }} />
 </p>
 				
 <table class="tooltip">
@@ -16,7 +18,7 @@
 			
 			{% if item.getItemLevel() is not null %}
 				<span id="boe">
-					{% if item.isBindOnPickUp() %} 
+					{% if item.getBindOnPickUp() %}
 					Binds when pick up
 					{% else %}
 					Binds on equip
@@ -24,8 +26,8 @@
 				</span> <br>
 			{% endif %}
 
-			{% if $item.isUnique() > 0 %}
-				<span id="Unique">Unique {{ item.isUnique() }} </span> <br>
+			{% if item.getIsUnique() > 0 %}
+				<span id="Unique">Unique {{ item.getIsUnique() }} </span> <br>
 			{% endif %}
 
 			 
@@ -35,36 +37,38 @@
 
 			<span id="ittype" class="alignright"> {{ item.getEquipType() }} </span><br>
 
-			{% if item.getDamage() is not null %}
-				<span id="damage"> {{ item.getDamage()[0] }} - {{ item.getDamage()[1] }} Damage</span>;
+			{% if item.getDamageMin() is not null %}
+				<span id="damage"> {{ item.getDamageMin() }} - {{ item.getDamageMax() }} Damage</span>
 				{% if item.getSpeed() is not null %}
-						<span id="speed" class="alignright"> {{ item.getSpeed() }} Speed</span> <br>;
+						<span id="speed" class="alignright"> {{ item.getSpeed() }} Speed</span> <br>
 						<span id="dps">(
-						 {{ (( ~ item.getDamage()[0] + item.getDamage[1])/(2 * item.getSpeed()))|round(2) }} )
-						 Damage per second)</span><br>';
+						 {{ item.getDps()|round(2) }}
+						 Damage per second)</span><br>
 				{% endif %}
 			{% endif %}
 
 			{% if item.getStats() is not null %}
 				{% for stat in item.getStats() %}
-					{% if stat['stat'] == "stamina"
-					   or stat['stat'] == "strength"
-					   or stat['stat'] == "intelect"
-					   or stat['stat'] == "agility"
-					   or stat['stat'] == "spirit" %}
-						<span>
-					{% else %}
-						<span class="q2">
+					{% if stat['stat'] is not null %}
+						{% if stat['stat'] == "stamina"
+						   or stat['stat'] == "strength"
+						   or stat['stat'] == "intelect"
+						   or stat['stat'] == "agility"
+						   or stat['stat'] == "spirit" %}
+							<span>
+						{% else %}
+							<span class="q2">
+						{% endif %}
+							+{{ stat['value'] }} {{ stat['stat'] }} </span><br>
 					{% endif %}
-						+{{ stat['value'] }} {{ stat['stat'] }} <span><br> 
 				{% endfor %}
 			{% endif %}
 			
 			{% if item.getSockets()[0] is not null %}
-				<div class="sockets"><br>;
+				<div class="sockets"><br>
 					{% for socket in item.getSockets() %}
-						{% if $socket is not null %}
-							<p class="socket q1 s- {{ socket }}"></p>
+						{% if socket is not null %}
+							<p class="socket q1 s-{{ socket }}"></p>
 						{% endif %}
 					{% endfor %}
 					
@@ -95,7 +99,7 @@
 						{{ silver }} <p class="money m-silver" />
 					{% endif %}
 
-					{% set copper = price/10000 % 100 %}
+					{% set copper = price % 100 %}
 					{% if copper != 0 %}
 						{{ copper }} <p class="money m-copper" />
 					{% endif %}
@@ -109,10 +113,11 @@
 				<th class="bottom-left"></th>
 				<th class="bottom-right"></th>
 			</tr>
-			
+
 			<!-- <th style="background-position: top right;"></th> -->
 			<!-- <tr><th style="background-position: bottom left"></th><th style="background-position: bottom right"></th></tr>  -->
 			<br>
 		</div>
 	</th>
 </table>
+{% endif %}

@@ -1,0 +1,19 @@
+
+<template id="comment-template">
+    <tr>
+        <td class="vote-column" id="comment_id">
+            <p class="vote voteup" title="This comment is helpful."> ▲ </p>
+            <p class="score"> 0 </p>
+            <p class="vote votedown" title="This comment is not helpful."> ▼ </p>
+        </td>
+        <td class="comment-content">
+            <div class="comment-header">
+                By {user} on {date}
+            </div>
+            <div class="comment-delete">Delete</div>
+            <a href="#comments"><div class="comment-edition">Edit</div></a>
+            <div class="comment-text">Comment Content</div>
+            <div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
+        </td>
+    </tr>
+</template>

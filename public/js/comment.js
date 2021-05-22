@@ -1,36 +1,73 @@
 
 const editbox = document.querySelector('.comment-editbox');
 const commentSubmit = document.querySelector(".button.comment-button");    
+const commentCancel = document.querySelector(".button.comment-button.comment-cancel");
 const commentContainer = document.querySelector('#comments-container table');
-console.log('');
 
 let userId = document.querySelector("#userid");
 let userPerms = document.querySelector("#userroles");
 userId = userId ? userId.innerHTML : undefined;
 userPerms = userPerms ? userPerms.innerHTML : undefined;
 
+const comment_type = document.querySelector("#comment_type").innerHTML;
+
+let editing_id = -1;
+
 if (editbox) {
     editbox.addEventListener("keyup", function (event) {
         const len = this.value.length;
-        const maxlen = this.getAttribute('maxlength');
-        const rem = maxlen - len;
+        const maxlength = this.getAttribute('maxlength');
+        const rem = maxlength - len;
     
-        document.querySelector(".char-remains").innerHTML = "Up to " + maxlen + " characters. " + rem + " characters remaining.";
+        document.querySelector(".char-remains").innerHTML = "Up to " + maxlength + " characters. " + rem + " characters remaining.";
     })
 }
 
 if (commentSubmit) {
     commentSubmit.addEventListener("click", function(event) {
         event.preventDefault();
-    
+
         if (editbox.value.length > 3) {
-            let article_id = window.location.pathname.split('/')[2];
-    
-            data = {
-                "article_id" : article_id,
+
+            let type_id = window.location.pathname.split('/')[2];
+
+            if (editing_id != -1) {
+                let data = {
+                    "comment" : editbox.value
+                };
+                fetch(`/editComment/${editing_id}`, {
+                    method: "PUT",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(function(response) {
+                    response = JSON.parse(response);
+                    const comments = document.querySelectorAll('.vote-column');
+                    comments.forEach( comment => {
+                        if (comment.id == editing_id) {
+                            let starttime = new Date();
+                            let isotime = new Date((new Date(starttime)).toISOString() );
+                            let fixedtime = new Date(isotime.getTime()-(starttime.getTimezoneOffset()*60000));
+                            let formatedMysqlString = fixedtime.toISOString().slice(0, 19).replace('T', ' ');
+                            comment.parentNode.querySelector(".comment-text").innerHTML = editbox.value;
+                            comment.parentNode.querySelector(".comment-edit").innerHTML = `Last edit: ${formatedMysqlString}`;
+                        }
+                    });
+                    cancelEdition();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+                return;
+            }
+
+
+            let data = {
+                "type_id" : type_id,
                 "comment" : editbox.value
             };
-            fetch("/addComment", {
+            fetch(`/addComment/${comment_type}`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -47,15 +84,22 @@ if (commentSubmit) {
             })
             .catch(function(error) {
                 console.log(error);
-            });   
+            });
         } 
     });
 }
 
-function getArticleComments() {
+if (commentCancel) {
+    commentCancel.addEventListener("click", function(event) {
+        event.preventDefault();
+        cancelEdition();
+    });
+}
+
+function getComments() {
     let article_id = window.location.pathname.split('/')[2];
 
-    fetch("/getComments/" + article_id, {
+    fetch(`/getComments/${comment_type}/${article_id}`, {
         method: "GET",
         headers: {'Content-Type': 'application/json'}
     }).then(function (response) {
@@ -94,7 +138,9 @@ function createComment(comment) {
     clone.querySelector(".comment-text").innerHTML = comment.content;
 
     let deleteBtn = clone.querySelector(".comment-delete");
+    let editBtn = clone.querySelector(".comment-edition");
 
+    // deletable
     if (comment.editable || inArray(userPerms, ["ROLE_ADMIN", "ROLE_MOD"])) {
         deleteBtn.style.setProperty('display', 'block');
         deleteBtn.addEventListener('click', function() {
@@ -102,8 +148,16 @@ function createComment(comment) {
         });
     }
 
+    if (comment.editable) {
+        editBtn.style.setProperty('display', 'block');
+        editBtn.addEventListener('click', function() {
+            editComment(id.id);
+        });
+    }
+
     if (comment.last_edit != null) {
-        clone.querySelector(".comment-edit").innerHTML = 'Last edit:' + comment.edit;
+        let last_edit = comment.last_edit.date.replace(".000000", "");
+        clone.querySelector(".comment-edit").innerHTML = `Last edit: ${last_edit}`;
     }
     else {
         clone.querySelector(".comment-edit").innerHTML = '';
@@ -113,17 +167,38 @@ function createComment(comment) {
     commentContainer.appendChild(clone);
 }
 
+function deleteComment(comment_id) {
+    fetch(`/deleteComment/${comment_id}`, {
+        method: "DELETE",
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(response => response.json())
+        .then(function(response) {
+            response = JSON.parse(response);
+            const comments = document.querySelectorAll('.vote-column');
+
+            comments.forEach( comment => {
+                if (comment.id == comment_id) {
+                    comment.parentNode.remove();
+                }
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
 function inArray(needle, haystack) {
-    var length = haystack.length;
-    for(var i = 0; i < length; i++) {
+    let length = haystack.length;
+    for(let i = 0; i < length; i++) {
         if(haystack[i] == needle) return true;
     }
     return false;
 }
 
 function bindStatisticsButtons() {
-    votesUp = document.querySelectorAll('.voteup');
-    votesDown = document.querySelectorAll('.votedown');
+    let votesUp = document.querySelectorAll('.voteup');
+    let votesDown = document.querySelectorAll('.votedown');
     if (!userId) {
         loginToVote(votesUp);
         loginToVote(votesDown);
@@ -161,7 +236,7 @@ function vote(button, value) {
     };
 
     fetch(`/setCommentVote`, {
-        method: "UPDATE",
+        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
@@ -186,7 +261,7 @@ function changeVoteButtonColors(button) {
 
     const voteup = button.parentElement.querySelector(".voteup");
     const votedown = button.parentElement.querySelector(".votedown");
-    
+
     if (voteup == button) {
         if (voteup.classList.contains('clicked')) {
             voteup.classList.remove('clicked');
@@ -210,7 +285,7 @@ function changeVoteButtonColors(button) {
 function updateCommentUserVotes() {
 
     const x = document.querySelectorAll('.vote-column');
-    var ids = [];
+    let ids = [];
 
     x.forEach(element => {
         let id = element.getAttribute('id');
@@ -234,8 +309,8 @@ function updateCommentUserVotes() {
 
 function setVoteButtonsCollors(buttons) {
 
-    var container = document.querySelector("#comments-container");
-    var voteColumns = container.querySelectorAll(".vote-column");
+    let container = document.querySelector("#comments-container");
+    let voteColumns = container.querySelectorAll(".vote-column");
     
     //console.log(buttons);
     voteColumns.forEach(column => {
@@ -257,26 +332,24 @@ function setVoteButtonsCollors(buttons) {
     });
 }
 
-function deleteComment(comment_id) {
-    fetch(`/deleteComment/${comment_id}`, {
-        method: "DELETE",
-        headers: { 'Content-Type': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(function(response) {
-        response = JSON.parse(response);
-        const comments = document.querySelectorAll('.vote-column');
+function editComment(id) {
+    editbox.value = "";
+    editing_id = id;
+    document.querySelector("#post_comment_title").innerHTML = "Editing Comment";
+    const comments = document.querySelectorAll('.vote-column');
 
-        comments.forEach( comment => {
-            if (comment.id == comment_id) {
-                comment.parentNode.remove();
-            }
-        });
-    })
-    .catch(function(error) {
-        console.log(error);
-    });   
+    comments.forEach( comment => {
+        if (comment.id == id) {
+            editbox.value = comment.parentNode.querySelector(".comment-text").innerHTML;
+        }
+    });
 }
 
-getArticleComments();
+function cancelEdition() {
+    editbox.value = "";
+    editing_id = -1;
+    document.querySelector("#post_comment_title").innerHTML = "Post a Comment";
+}
+
+getComments();
 
