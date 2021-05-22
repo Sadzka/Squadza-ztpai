@@ -92,7 +92,26 @@ serach_quests:
     path: /searchQuests
     controller: App\Controller\QuestController::searchQuests
 
+# NPC Controller
+npc:
+    path: /npc
+    controller: App\Controller\NpcController::npc
+
+npc_info:
+    path: /npc/{npc_id}
+    controller: App\Controller\NpcController::npcInfo
+
+serach_npcs:
+    path: /searchNpcs
+    controller: App\Controller\NpcController::searchNpcs
+
+# Location Controller
+location:
+    path: /location/{location_id}
+    controller: App\Controller\LocationController::location
+
 # Default Controller
+
 index_path:
     path: /{path}
     controller: App\Controller\DefaultController::index

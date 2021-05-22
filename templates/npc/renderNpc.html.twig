@@ -1,0 +1,45 @@
+
+{% if npc is defined %}
+
+<table class="tooltip">
+	<th>
+		<div class="quest">
+			<h2><span class="q6"> {{ npc.getName() }} </span>
+			<div class="item-id-visible">ID: {{ npc.getId() }}</div> <br></h2>
+			<h3>Level: {{ npc.level }}</h3>
+			<h3>Health: {{ npc.health }}</h3>
+			<h3>Friendly:
+				{% if npc.friendly %} True
+				{% else %} False
+				{% endif %}
+			</h3>
+			{% if location is defined %}
+				<h3>Location: <span class="npcref"><a href="/location/{{ location.getId() }}?x={{ npc.x }}&y={{ npc.y }}">
+							{{ location.getName() }} ({{ npc.x }}, {{ npc.y }})
+				</a></span></h3>
+			{% else %}
+				<h3>Location: Unknown</h3>
+			{% endif %}
+
+			{% if quests_start is not empty %}Starts: <br>
+			{% for quest in quests_start %}
+				<span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
+			{% endfor %}
+			{% endif %}
+
+			{% if quests_end is not empty %}Ends: <br>
+			{% for quest in quests_end %}
+				<span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
+			{% endfor %}
+			{% endif %}
+
+			<th class="top-right">
+				<tr>
+					<th class="bottom-left"></th>
+					<th class="bottom-right"></th>
+				</tr>
+			</th>
+		</div>
+	</th>
+</table>
+{% endif %}

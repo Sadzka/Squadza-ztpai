@@ -1,0 +1,57 @@
+<html lang="en">
+
+<head>
+	<title>Arikazike</title>
+	<link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+	<link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+
+	<script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+	<script type="text/javascript" src=" {{ asset ('js/npc.js') }} " defer></script>
+
+	<div id="comment_type">npc</div>
+</head>
+
+<body>
+
+	{% include 'Utils/header_and_menu.html.twig' %}
+
+	<div class="search-item-tooltip-container">
+		{% include 'npc/searchNpc.html.twig' %}
+		<div class="itemtooltip">
+			{% include 'npc/renderNpc.html.twig' %}
+		</div>
+	</div>
+
+	<div class="search-result-container" id="search-result-container">
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Level</th>
+				<th>Health</th>
+				<th>Friendly</th>
+				<th>Location</th>
+			</tr>
+		</table>
+	</div>
+
+	<div class="comment-container">
+		<div class="news news-full">
+			<div class="news-content">
+			{% include 'Comment/comment.html.twig' %}
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<template id="npc-template">
+	<tr>
+		<th id="nname"><a href="#" class="questref">Name</a></th>
+		<th id="lv">Level</th>
+		<th id="hp">Health</th>
+		<th id="fr">Friendly</th>
+		<th id="loc">Location</th>
+	</tr>
+</template>
+
+{% include 'Comment/commentTemplate.html.twig' %}

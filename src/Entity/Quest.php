@@ -28,12 +28,12 @@ class Quest
      * @ORM\ManyToOne(targetEntity=Npc::class, inversedBy="quests")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $start_npc;
+    private $startNpc;
 
     /**
      * @ORM\ManyToOne(targetEntity=Npc::class, inversedBy="quests")
      */
-    private $end_npc;
+    private $endNpc;
 
     /**
      * @ORM\Column(type="bigint")
@@ -89,24 +89,24 @@ class Quest
 
     public function getStartNpc(): ?Npc
     {
-        return $this->start_npc;
+        return $this->startNpc;
     }
 
-    public function setStartNpc(?Npc $start_npc): self
+    public function setStartNpc(?Npc $startNpc): self
     {
-        $this->start_npc = $start_npc;
+        $this->startNpc = $startNpc;
 
         return $this;
     }
 
     public function getEndNpc(): ?Npc
     {
-        return $this->end_npc;
+        return $this->endNpc;
     }
 
-    public function setEndNpc(?Npc $end_npc): self
+    public function setEndNpc(?Npc $endNpc): self
     {
-        $this->end_npc = $end_npc;
+        $this->endNpc = $endNpc;
 
         return $this;
     }

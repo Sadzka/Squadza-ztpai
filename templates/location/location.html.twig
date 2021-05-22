@@ -1,0 +1,48 @@
+<html lang="en">
+
+<head>
+    <title>Arikazike</title>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+
+</head>
+
+<body>
+
+{% include 'Utils/header_and_menu.html.twig' %}
+
+<div class="location-map">
+    <div class="location-map-img">
+    <img src="/img/maps/{{ location.getName() }}.jpg">
+    <img class="location-marker" src="/img/maps/map-pointer.png"
+    style="
+    left: calc({{ marker.x }}% - 16px);
+    top:  calc({{ marker.y }}% - 32px);">
+    </div>
+</div>
+
+<div class="npc-list-container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Health</th>
+            <th>Friendly</th>
+        </tr>
+    {% for npc in npcs %}
+        <tr>
+            <th><span class="npcref"><a href="/npc/{{ npc.getId() }}">{{ npc.getName() }}</a></span></th>
+            <th>{{ npc.getLevel() }}</th>
+            <th>{{ npc.getHealth() }}</th>
+            <th>{% if npc.getFriendly() %}True{% else %}False{% endif %}</th>
+        </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+    <br>
+</div>
+
+</body>
+
+</html>

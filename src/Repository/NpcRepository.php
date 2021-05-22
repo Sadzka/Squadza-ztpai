@@ -19,6 +19,36 @@ class NpcRepository extends ServiceEntityRepository
         parent::__construct($registry, Npc::class);
     }
 
+    public function findNpcs($name, $lvmin, $lvmax, $locations)
+    {
+        $locations_id = [];
+        foreach ($locations as $location) {
+            array_push($locations_id, $location->getId());
+        }
+
+        $name = '%' . $name . '%';
+        if ($lvmin == '') $lvmin = 0;
+        if ($lvmax == '') $lvmax = 9999;
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->andWhere('a.level BETWEEN :lvmin and :lvmax')
+            ->setParameter(':name', $name)
+            ->setParameter(':lvmin', $lvmin)
+            ->setParameter(':lvmax', $lvmax);
+
+        if ($locations_id != []) {
+            $query
+                ->andWhere("a.location IN (:location)")
+                ->setParameter(":location", $locations_id);
+        }
+
+
+        //var_dump($query->getQuery()->getSQL());
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Npc[] Returns an array of Npc objects
     //  */

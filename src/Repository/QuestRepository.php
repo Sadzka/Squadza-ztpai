@@ -18,6 +18,7 @@ class QuestRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Quest::class);
     }
+
     public function findQuests($name, $reqlvmin, $reqlvmax)
     {
         $name = '%' . $name . '%';

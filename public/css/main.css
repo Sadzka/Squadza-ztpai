@@ -509,11 +509,20 @@ header {
     display: none;
 }
 
-.search-result-container table {
-    background-color: #062d56;
+.npc-list-container {
+    margin: 2em 2em 2em 2em;
+    display: flex;
+    justify-content: center;
 }
 
-.search-result-container table tr th{
+.search-result-container table,
+.npc-list-container table {
+    background-color: #062d56;
+    margin-bottom: 6em;
+}
+
+.search-result-container table tr th,
+.npc-list-container table tr th{
     width: 180px;
     padding: 0.5em;
     text-overflow: ellipsis;
@@ -668,6 +677,67 @@ header {
 }
 .m-copper {
     background: url(../img/money/money-copper.gif) no-repeat left center; background-size: 1.20em;
+}
+
+.requirements > tbody {
+    padding: 2em;
+}
+.r-header {
+    font-size: 1.33em;
+    padding: 1em;
+    text-align: center !important;
+}
+.requirements > tbody > tr > th {
+    width: 50%;
+    text-align: left;
+    padding-left: 1em;
+    padding-bottom: 10px;
+}
+.r-title {color: rgb(160, 160, 160);
+    padding-bottom: 0px !important;
+}
+.requirements {
+    color: white;
+}
+.download {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.download-button {background: rgb(38, 153, 251);
+    box-shadow: 0px 3px 6px black;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    width: 100px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 200px;
+    height: 50px;
+    margin: 5em 0;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Location */
+.location-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2em;
+}
+
+.location-map-img {
+    margin-top: 5em;
+    position: relative;
+    width: 512px;
+    height: 512px;
+}
+
+.location-marker {
+    position: absolute;
+    width: 32px;
+    height: 32px;
 }
 
 /* Mobile */

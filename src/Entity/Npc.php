@@ -25,40 +25,54 @@ class Npc
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="npc")
+     * @ORM\Column(type="integer")
      */
-    private $location;
+    private $level;
 
     /**
      * @ORM\Column(type="integer")
+     */
+    private $health;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $friendly;
+
+    /**
+     * @ORM\Column(type="float")
      */
     private $x;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $y;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="npcs")
+     * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="e")
      */
-    private $Location;
+    private $location;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Quest::class, mappedBy="start_npc")
-     */
-    private $quests;
-
-    /**
-     * @ORM\OneToMany(targetEntity=NpcComment::class, mappedBy="npc")
-     */
-    private $npcComment;
+    public function toJson()
+    {
+        return json_encode([
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'friendly' => $this->getFriendly(),
+            'health' => $this->getHealth(),
+            'level' => $this->getLevel(),
+            'x' => $this->getX(),
+            'y' => $this->getY(),
+            'location' => [
+                'name' => $this->location->getName(),
+                'id' => $this->location->getId()
+            ],
+        ]);
+    }
 
     public function __construct()
     {
-        $this->location = new ArrayCollection();
-        $this->quests = new ArrayCollection();
-        $this->npcComment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,121 +95,76 @@ class Npc
     /**
      * @return Collection|Location[]
      */
-    public function getLocation(): Collection
+    public function getLocation()
     {
         return $this->location;
     }
 
-    public function addLocation(Location $location): self
+    public function getLevel(): ?int
     {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
-            $location->setNpc($this);
-        }
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }
 
-    public function removeLocation(Location $location): self
+    public function getHealth(): ?int
     {
-        if ($this->location->removeElement($location)) {
-            // set the owning side to null (unless already changed)
-            if ($location->getNpc() === $this) {
-                $location->setNpc(null);
-            }
-        }
+        return $this->health;
+    }
+
+    public function setHealth(int $health): self
+    {
+        $this->health = $health;
 
         return $this;
     }
 
-    public function getX(): ?int
+    public function getFriendly(): ?bool
+    {
+        return $this->friendly;
+    }
+
+    public function setFriendly(bool $friendly): self
+    {
+        $this->friendly = $friendly;
+
+        return $this;
+    }
+
+    public function getX(): ?float
     {
         return $this->x;
     }
 
-    public function setX(int $x): self
+    public function setX(float $x): self
     {
         $this->x = $x;
 
         return $this;
     }
 
-    public function getY(): ?int
+    public function getY(): ?float
     {
         return $this->y;
     }
 
-    public function setY(int $y): self
+    public function setY(float $y): self
     {
         $this->y = $y;
 
         return $this;
     }
 
-    public function setLocation(?Location $Location): self
+    public function setLocation(?Location $location): self
     {
-        $this->Location = $Location;
+        $this->location = $location;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Quest[]
-     */
-    public function getQuests(): Collection
-    {
-        return $this->quests;
-    }
-
-    public function addQuest(Quest $quest): self
-    {
-        if (!$this->quests->contains($quest)) {
-            $this->quests[] = $quest;
-            $quest->setStartNpc($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuest(Quest $quest): self
-    {
-        if ($this->quests->removeElement($quest)) {
-            // set the owning side to null (unless already changed)
-            if ($quest->getStartNpc() === $this) {
-                $quest->setStartNpc(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|NpcComment[]
-     */
-    public function getNpcComment(): Collection
-    {
-        return $this->npcComment;
-    }
-
-    public function addComment(NpcComment $npcComment): self
-    {
-        if (!$this->npcComment->contains($npcComment)) {
-            $this->npcComment[] = $npcComment;
-            $npcComment->setNpc($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(NpcComment $comment): self
-    {
-        if ($this->npcComment->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getNpc() === $this) {
-                $comment->setNpc(null);
-            }
-        }
-
-        return $this;
-    }
 }

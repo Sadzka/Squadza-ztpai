@@ -99,6 +99,9 @@ if (commentCancel) {
 function getComments() {
     let article_id = window.location.pathname.split('/')[2];
 
+    if (article_id == undefined) {
+        document.querySelector(".comment-container").style.display = 'none';
+    }
     fetch(`/getComments/${comment_type}/${article_id}`, {
         method: "GET",
         headers: {'Content-Type': 'application/json'}

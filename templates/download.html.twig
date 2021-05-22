@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<head>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }}">
+</head>
+
+<body>
+{% include 'Utils/header_and_menu.html.twig' %}
+
+<div class="download">
+
+    <div class="download-button"><p><a href="#">Download</a></p></div>
+</div>
+
+<table class="requirements">
+    <tbody>
+
+    <tr>
+        <th class="r-header">Minimum Requirements</th>
+        <th class="r-header">Recomended Requirements</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Operating system</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>Windows 7 32-bit</th>
+        <th>Windows 7 64-bit</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Processor</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>Intel® Core™ i5-3450 or AMD FX™ 8300</th>
+        <th>Intel® Core™ i7-6700K or AMD Ryzen™ 7 2700X or better</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Video</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>NVIDIA® GeForce® GTX 760 2 GB or AMD Radeon™ RX 560 2 GB or Intel® UHD Graphics 630 (45W TDP) *Requires manufacturer's driver support.</th>
+        <th>NVIDIA® GeForce® GTX 1080 8 GB or AMD Radeon™ RX Vega 64 8 GB or better</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Memory</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>4GB RAM (8GB if using supported integrated graphics)</th>
+        <th>8GB RAM</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Storage</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>Solid State Drive (SSD) 100GB available space or Hard Disk Drive (HDD) 100GB available space (depending on the performance of the drive, player experience may be impacted on HDD)</th>
+        <th>Solid State Drive (SSD) 100GB available space</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Internet</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>Broadband internet connection</th>
+        <th>Broadband internet connection</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Input</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>Keyboard and mouse required. Other input devices are not supported.</th>
+        <th>Keyboard and mouse required. Other input devices are not supported.</th>
+    </tr>
+
+    <tr>
+        {% for i in range(0, 1) %}<th class="r-title">Input</th>{% endfor %}
+    </tr>
+    <tr>
+        <th>1024 x 768 minimum display resolution</th>
+        <th>1920 x 1080 display resolution</th>
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
