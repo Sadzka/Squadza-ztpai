@@ -1,0 +1,34 @@
+<html lang="en">
+
+<head>
+    <title>Arikazike</title>
+    <link type="text/css" rel="stylesheet" href="{{ asset ('css/main.css') }} ">
+    <link type="text/css" rel="stylesheet" href="{{ asset ('css/items.css') }} ">
+
+    <script type="text/javascript" src=" {{ asset ('js/guild.js') }} " defer></script>
+</head>
+
+<body>
+
+{% include 'Utils/header_and_menu.html.twig' %}
+
+<div class="search-item-tooltip-container">
+    {% include 'guild/searchGuild.html.twig' %}
+</div>
+
+<div class="search-result-container" id="search-result-container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Members</th>
+        </tr>
+    </table>
+</div>
+</body>
+
+<template id="character-template">
+    <tr>
+        <th id="name"><a href="#" class="questref">Name</a></th>
+        <th id="members">Level</th>
+    </tr>
+</template>

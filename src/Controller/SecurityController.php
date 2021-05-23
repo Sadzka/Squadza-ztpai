@@ -3,11 +3,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Character;
+use App\Entity\User;
+use App\Entity\Avatar;
+use App\Form\AvatarType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SecurityController extends AbstractController {
 	
@@ -16,32 +20,49 @@ class SecurityController extends AbstractController {
 	const SUPPORTED_TYPES = ['image/png', 'image/jpeg'];
 	const UPLOAD_DIRECTORY = '/../public/uploads/avatars/';
 	
-	public function profile()
+	public function profile(Request $request, $profile_id = -1)
 	{
-		/*
-			TODO
-			
-		if (Request::createFromGlobals()->getMethod() == 'POST'
-		&& is_uploaded_file( $_FILES['file']['tmp_name'])
-		&& $this->validateImage($_FILES['file']))
-		{
-			$ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-			$filename = $this->currentUser->getUsername() . '_' . bin2hex(random_bytes(16)) . '.' . $ext;
-	
-			if (move_uploaded_file(
-			$_FILES['file']['tmp_name'],
-			dirname(__DIR__) . self::UPLOAD_DIRECTORY . $filename
-			)) {
-				UserRepository::getInstance()->setUserAvatar($this->currentUser->getEmail(), $filename);
-				$this->messages[] = 'Avatar changed.';
-			}
-			else {
-				$this->messages[] = 'Unknown error. Try again.';
-			}
-		}
-		*/
-	
-		return $this->render('security/profile.html.twig', ['messages' => $this->messages]);	
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $avatar = new Avatar();
+        $form = $this->createForm(AvatarType::class, $avatar);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $file stores the uploaded PDF file
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $avatar->getImage();
+
+            $fileName = $this->getUser()->getUsername().'_'.bin2hex(random_bytes(16)).'.'.$file->guessExtension();
+
+            // moves the file to the directory where brochures are stored
+            //
+
+            $file->move(
+                $this->getParameter('avatar_directory'),
+                $fileName
+            );
+
+            $avatar->setImage($fileName);
+            $this->getDoctrine()->getManager()->persist($avatar);
+
+            $this->getUser()->setAvatar($avatar);
+            $this->getDoctrine()->getManager()->persist($this->getUser());
+
+            $entityManager->flush();
+
+        }
+
+
+        $profile_id = $profile_id == -1 ? $this->getUser()->getId() : $profile_id;
+        $user = $this->getDoctrine()->getRepository(User::class)->findById($profile_id);
+        $characters = $this->getDoctrine()->getRepository(Character::class)->findByUser($user);
+
+		return $this->render('security/profile.html.twig', [
+            'form' => $form->createView(),
+		    'messages' => $this->messages,
+            'characters' => $characters
+        ]);
 	}
 
 	public function login(AuthenticationUtils $authenticationUtils): Response

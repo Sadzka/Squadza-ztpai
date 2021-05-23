@@ -25,19 +25,19 @@ class ArticleRepository extends ServiceEntityRepository
         return $persister->count($criteria);
     }
 
-/*
-    public function findByArticle($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.article_id = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+    public function findLike($name) {
+        if ($name == "") return [];
+        $name = '%' . $name . '%';
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.title LIKE :name')
+            ->setParameter(':name', $name);
+
+        return $query
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-*/
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

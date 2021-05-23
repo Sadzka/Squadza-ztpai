@@ -37,6 +37,19 @@ class QuestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findLike($name) {
+        if ($name == "") return [];
+        $name = '%' . $name . '%';
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->setParameter(':name', $name);
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Quest[] Returns an array of Quest objects
     //  */

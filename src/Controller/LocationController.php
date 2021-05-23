@@ -7,7 +7,6 @@ use App\Entity\Npc;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 class LocationController extends AbstractController
 {
@@ -18,7 +17,7 @@ class LocationController extends AbstractController
 
         $location = $locationRepository->findOneById($location_id);
 
-        $marker = [];
+        $marker = null;
         if ($request->query->get('x') && $request->query->get('y'))
             $marker = ['x' => $request->query->get('x'), 'y' => $request->query->get('y')];
 

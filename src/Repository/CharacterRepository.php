@@ -19,6 +19,36 @@ class CharacterRepository extends ServiceEntityRepository
         parent::__construct($registry, Character::class);
     }
 
+    public function findCharacters($name, $lvmin, $lvmax)
+    {
+        $name = '%' . $name . '%';
+        if ($lvmin == '') $lvmin = 0;
+        if ($lvmax == '') $lvmax = 9999;
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->andWhere('a.level BETWEEN :lvmin and :lvmax')
+            ->setParameter(':name', $name)
+            ->setParameter(':lvmin', $lvmin)
+            ->setParameter(':lvmax', $lvmax);
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLike($name) {
+        if ($name == "") return [];
+        $name = '%' . $name . '%';
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->setParameter(':name', $name);
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Character[] Returns an array of Character objects
     //  */

@@ -1,5 +1,7 @@
 <header>
 
+    <script type="text/javascript" src=" {{ asset ('js/header-search.js') }} " defer></script>
+
     {% if app.user %}
         <p id="userid" hidden>{{app.user.id}}</p>
     {% for role in app.user.roles %}
@@ -8,7 +10,10 @@
     {% endif %}
 
     <embed class="logoheader" src=" {{ asset ('img/Squadza.svg') }} "/>
-    <input class="searchheader" name="search" placeholder="Search player or guild..." >
+
+    <input class="searchheader" name="search" placeholder="Search on website..." >
+    <img class="header-search media-icon" src="{{ asset ('img/interface/magnify.png') }}" />
+
     <div class="buttons-space-header">
 
         <!-- Icons made by Freepik from https://www.flaticon.com/ -->
@@ -22,7 +27,7 @@
         {% if app.user %}
 
         <div class="profile-header">
-            <img class="header-profile-avatar" src=" {{ asset ('uploads/avatars/' ~ app.user.getAvatar() ) }} ">
+            <img class="header-profile-avatar" src=" {{ asset ('uploads/avatars/' ~ app.user.getAvatar().getImage() ) }} ">
             
             <ol class="menu-ol menu-ol-header">
                 <li>

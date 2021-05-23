@@ -23,13 +23,13 @@
 
 			{% if quests_start is not empty %}Starts: <br>
 			{% for quest in quests_start %}
-				<span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
+				<span class="q-mark q-start"></span><span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
 			{% endfor %}
 			{% endif %}
 
 			{% if quests_end is not empty %}Ends: <br>
 			{% for quest in quests_end %}
-				<span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
+				<span class="q-mark q-end"></span><span class="npcref"><a href="/quest/{{ quest.getId() }}">{{ quest.getName() }}</a><br></span>
 			{% endfor %}
 			{% endif %}
 

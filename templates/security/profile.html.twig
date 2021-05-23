@@ -6,16 +6,52 @@
 <body>	
 	{% include 'Utils/header_and_menu.html.twig' %}
 
-	<h1>AVATAR</h1>
+	<div class="center">
 
-	{% include 'Utils/messages.html.twig' %}
+		<div >
+			<h1>AVATAR</h1>
 
-	<form action="#" method="POST" ENCTYPE="multipart/form-data">
-		<input type="file" name="file"> <br/>
-		<button type="submit">UPLOAD</button>
-	
-	</form>
-	
-	<div class="content"> 
+			<!--
+			{# {% include 'Utils/messages.html.twig' %} #}
+
+			<form action="#" method="POST" ENCTYPE="multipart/form-data">
+				<input style="width: auto" type="file" name="file"> <br/>
+				<button type="submit">UPLOAD</button>
+
+			</form>
+			-->
+			{{ form_start(form) }}
+
+			{{ form_widget(form.image) }}
+			<button type="submit">UPLOAD</button>
+
+			{{ form_end(form) }}
+			<div class="messages">
+				{{ form_errors(form.image) }}
+			</div>
+		</div>
+
 	</div>
+	<div class="character-container" style="display: block">
+
+		<img class="medium-avatar" src="{{ asset ('uploads/avatars/' ~ app.user.getAvatar().getImage() ) }} ">
+		<div class="npc-list-container">
+			<table>
+				<thead>
+				<tr>
+					<th>Characters</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				{% for character in characters %}
+					<tr>
+						<th><a href="/character/{{ character.getId() }}" class="npcref">{{ character.getName() }}</a></th>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 </body>

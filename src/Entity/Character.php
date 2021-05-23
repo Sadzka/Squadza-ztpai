@@ -63,6 +63,36 @@ class Character
      */
     private $resource;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Guild::class, mappedBy="owner", cascade={"persist", "remove"})
+     */
+    private $guild;
+
+    public function getArray()
+    {
+        $ret = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'owner' => [
+                'username' => $this->user->getUsername(),
+                'id' => $this->user->getId()
+            ],
+            'level' => $this->level,
+            'experience' => $this->experience,
+            'location' => $this->location,
+            'x' => $this->x,
+            'y' => $this->y,
+            'health' => $this->health,
+            'resource' => $this->resource,
+            'guild' => [
+                'name' => '-',
+                'id' => null
+            ]
+        ];
+
+        return $ret;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -172,6 +202,23 @@ class Character
     public function setResource(int $resource): self
     {
         $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function getGuild(): ?Guild
+    {
+        return $this->guild;
+    }
+
+    public function setGuild(Guild $guild): self
+    {
+        // set the owning side of the relation if necessary
+        if ($guild->getOwner() !== $this) {
+            $guild->setOwner($this);
+        }
+
+        $this->guild = $guild;
 
         return $this;
     }

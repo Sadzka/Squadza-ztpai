@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>{{ character.getName() }}</title>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+
+    <script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+    <script type="text/javascript" src=" {{ asset ('js/item.js') }} " defer></script>
+</head>
+
+<body>
+{% include 'Utils/header_and_menu.html.twig' %}
+
+{% if character is not empty %}
+
+    <div class="character-container">
+        <h6><span>Owner:
+                <a href="/profile/{{ character.getUser().getId() }}" class="questref">
+                    {{ character.getUser().getUsername() }}
+                </a>
+        </span></h6>
+
+
+        <span>Name: {{ character.getName() }}</span>
+
+        <span>
+Guild:
+    {% if character.getGuild() is not null %}
+        <a href="/guild/{{ character.getGuild().getId() }}" class="questref">{{ character.getGuild().getName() }}</a>
+    {% else %}
+        ---
+    {% endif %}
+        </span>
+
+        <span>Level: {{ character.getLevel() }}</span>
+
+    </div>
+{% else %}
+    <h1>Character not found.</h1>
+{% endif %}
+
+</body>
+</html>

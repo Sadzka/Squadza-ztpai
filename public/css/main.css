@@ -555,6 +555,13 @@ header {
     align-items: center;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
+.flex {
+     display: flex;
+ }
 .add-comment {
     border: 1px solid white;
     margin: 1em 1em;
@@ -650,14 +657,30 @@ header {
     color: white;
     font-weight: 400;
 }
-
+.relative {
+    position: relative;
+}
+.header-search {
+    position: relative;
+    right: 63px;
+    background-color: rgb(15, 25, 115);
+    border-radius: 0 20px 20px 0;
+    height: 2.4em;
+}
+.header-search:hover {
+    cursor: pointer;
+    background-color: rgb(52, 60, 133);
+}
 /*** Gold ***/
 
 .moneys {
     align-items: center;
     display: flex;
     flex-direction: row;
+}
+.center {
     justify-content: center;
+    text-align: center;
 }
 
 .moneys-quest {
@@ -738,6 +761,34 @@ header {
     position: absolute;
     width: 32px;
     height: 32px;
+}
+
+.character-container {
+    margin: 3em 0;
+    display: grid;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    text-align: center;
+}
+
+.q-mark {
+    font-family: system-ui;
+    color: yellow;
+    text-shadow: 2px 2px black;
+    font-size: 1.3em;
+    font-weight: lighter;
+}
+.q-start::after {
+    content: " ! ";
+}
+.q-end::after {
+     content: " ? ";
+ }
+.medium-avatar {
+    width: 128px;
+    height: 128px;
 }
 
 /* Mobile */

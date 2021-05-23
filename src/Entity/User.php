@@ -47,11 +47,6 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=127, options={"default" : "default.png"})
-     */
-    private $avatar;
-
-    /**
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -76,9 +71,14 @@ class User implements UserInterface
      */
     private $characters;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Avatar::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $avatar;
+
     public function __construct() 
     {
-        $this->avatar = 'default.png';
         $this->roles = ['{"role" : "ROLE_USER"}'];
         $this->comments = new ArrayCollection();
         $this->commentLikes = new ArrayCollection();
@@ -171,18 +171,6 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
 
         return $this;
     }
@@ -316,4 +304,17 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Avatar $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
 }

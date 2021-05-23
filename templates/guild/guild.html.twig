@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>{{ guild.getName() }}</title>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+
+    <script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+    <script type="text/javascript" src=" {{ asset ('js/item.js') }} " defer></script>
+</head>
+
+<body>
+{% include 'Utils/header_and_menu.html.twig' %}
+
+{% if guild is not empty %}
+
+    <div class="character-container">
+        <span>Guild: {{ guild.getName() }} </span>
+        <span>Guild Master:
+                <a href="/character/{{ guild.getOwner().getId() }}" class="questref">
+                    {{ guild.getOwner().getName() }}
+                </a>
+        </span>
+        <br>
+        <br>
+        <span>Guild Rooster:</span>
+        <div class="npc-list-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Guild Rank</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+
+                {% for guildMember in guild.getGuildMembers() %}
+
+                    <tr>
+                        <th>
+                            <span class="npcref">
+                                <a href="/character/{{ guildMember.getMember().getId() }}">
+                                    {{ guildMember.getMember().getName() }}
+                                </a>
+                            </span>
+                        </th>
+                        <th>{{ guildMember.getMember().getLevel() }}</th>
+                        <th>
+                            {% if guildMember.getRank() == 1 %}
+                                Guild Master
+                            {% else %}
+                                {{ guildMember.getRank() }}
+                            {% endif %}
+                        </th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+{% else %}
+    <h1>Guild not found.</h1>
+{% endif %}
+
+</body>
+</html>

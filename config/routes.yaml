@@ -58,8 +58,9 @@ app_logout:
     controller: App\Controller\SecurityController::logout
 
 profile:
-    path: /profile
+    path: /profile/{profile_id}
     controller: App\Controller\SecurityController::profile
+    defaults:   { profile_id: -1 }
 
 # Registration Contoller
 register:
@@ -105,12 +106,43 @@ serach_npcs:
     path: /searchNpcs
     controller: App\Controller\NpcController::searchNpcs
 
+
+# character Controller
+character:
+    path: /character
+    controller: App\Controller\CharacterController::index
+
+character_info:
+    path: /character/{character_id}
+    controller: App\Controller\CharacterController::character
+
+search_character:
+    path: /searchCharacters
+    controller: App\Controller\CharacterController::searchCharacters
+
+# Guild Controller
+guild:
+    path: /guild
+    controller: App\Controller\GuildController::index
+
+guild_info:
+    path: /guild/{guild_id}
+    controller: App\Controller\GuildController::guild
+
+search_guild:
+    path: /searchGuilds
+    controller: App\Controller\GuildController::searchGuilds
+
 # Location Controller
 location:
     path: /location/{location_id}
     controller: App\Controller\LocationController::location
 
 # Default Controller
+
+search:
+    path: /search
+    controller: App\Controller\DefaultController::search
 
 index_path:
     path: /{path}

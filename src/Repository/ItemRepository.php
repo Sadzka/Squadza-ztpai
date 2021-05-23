@@ -58,10 +58,23 @@ class ItemRepository extends ServiceEntityRepository
                 ->setParameter('rarities', $rarities);
         }
 
-        return $query->getQuery()
+        return $query
+            ->getQuery()
             ->getResult();
     }
 
+    public function findLike($name) {
+        if ($name == "") return [];
+        $name = '%' . $name . '%';
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->setParameter(':name', $name);
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Item[] Returns an array of Item objects

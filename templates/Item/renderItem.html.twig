@@ -88,20 +88,20 @@
 				{% if price == 0%}
 					No sell price.
 				{% else %}
-					Sell Price
+					Sell Price:  
 					{% set gold = price/10000 % 100 %}
 					{% if gold != 0 %}
-						{{ gold }} <p class="money m-gold" />
+						<p class="money m-gold">{{ gold }}</p>
 					{% endif %}
 
 					{% set silver = price/100 % 100 %}
 					{% if silver != 0 %}
-						{{ silver }} <p class="money m-silver" />
+						<p class="money m-silver">{{ silver }}</p>
 					{% endif %}
 
 					{% set copper = price % 100 %}
 					{% if copper != 0 %}
-						{{ copper }} <p class="money m-copper" />
+						<p class="money m-copper">{{ copper }}</p>
 					{% endif %}
 
 				{% endif %}

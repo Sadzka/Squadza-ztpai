@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Arikazike</title>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+
+    <script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+    <script type="text/javascript" src=" {{ asset ('js/item.js') }} " defer></script>
+</head>
+
+<body>
+    {% include 'Utils/header_and_menu.html.twig' %}
+<div class="flex">
+{% if articles is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Article</th></tr></tbody>
+    {% for article in articles %}
+        <tr><th id="nname"><a href="/article/{{ article.getId() }}">{{ article.getTitle() }}</a></th></tr>
+    {% endfor %}
+        </table>
+    </div>
+
+{% endif %}
+
+{% if items is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Items</th></tr></tbody>
+    {% for item in items %}
+        <tr><th id="nname"><a href="/item/{{ item.getId() }}" class="q{{ item.getQuality() }}">{{ item.getName() }}</a></th></tr>
+    {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+{% if npcs is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Npc</th></tr></tbody>
+
+    {% for npc in npcs %}
+        <tr><th id="nname"><a href="/npc/{{ npc.getId() }}" class="questref">{{ npc.getName() }}</a></th></tr>
+    {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+{% if quests is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Quest</th></tr></tbody>
+            <tr>
+                <th id="nname"><a href="/npc/1" class="questref">Wandering Merchant</a></th>
+            </tr>
+    {% for quest in quests %}
+        <tr><th id="nname"><a href="/npc/{{ quest.getId() }}" class="questref">{{ quest.getName() }}</a></th></tr>
+    {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+{% if characters is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Character</th></tr></tbody>
+            {% for character in characters %}
+                <tr><th id="nname"><a href="/character/{{ character.getId() }}" class="questref">{{ character.getName() }}</a></th></tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+{% if guilds is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <tbody><tr><th>Guild</th></tr></tbody>
+            {% for guild in guilds %}
+                <tr><th id="nname"><a href="/guild/{{ guild.getId() }}" class="questref">{{ guild.getName() }}</a></th></tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+</div>
+</body>
+</html>

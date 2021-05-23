@@ -15,12 +15,19 @@
     <div class="location-map-img">
     <img src="/img/maps/{{ location.getName() }}.jpg">
     <img class="location-marker" src="/img/maps/map-pointer.png"
-    style="
+         style="
+         {% if marker is not null %}
     left: calc({{ marker.x }}% - 16px);
-    top:  calc({{ marker.y }}% - 32px);">
+    top:  calc({{ marker.y }}% - 32px);
+        {% else %}
+    display: none;
+        {% endif %}
+    ">
     </div>
 </div>
-
+<div class="center">
+<h2>NPCs in this location:</h2>
+</div>
 <div class="npc-list-container">
     <table>
         <tr>

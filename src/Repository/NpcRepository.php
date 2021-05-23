@@ -49,6 +49,19 @@ class NpcRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findLike($name) {
+        if ($name == "") return [];
+        $name = '%' . $name . '%';
+
+        $query = $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :name')
+            ->setParameter(':name', $name);
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Npc[] Returns an array of Npc objects
     //  */
