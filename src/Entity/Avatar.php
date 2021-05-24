@@ -33,8 +33,9 @@ class Avatar
      */
     private $users;
 
-    public function __construct()
+    public function __construct(string $avatar = '')
     {
+        $this->image = $avatar;
         $this->users = new ArrayCollection();
     }
 

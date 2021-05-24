@@ -8,18 +8,9 @@
 
 	<div class="center">
 
+		{% if app.user and user and app.user.getId() == user.getId() %}
 		<div >
 			<h1>AVATAR</h1>
-
-			<!--
-			{# {% include 'Utils/messages.html.twig' %} #}
-
-			<form action="#" method="POST" ENCTYPE="multipart/form-data">
-				<input style="width: auto" type="file" name="file"> <br/>
-				<button type="submit">UPLOAD</button>
-
-			</form>
-			-->
 			{{ form_start(form) }}
 
 			{{ form_widget(form.image) }}
@@ -30,11 +21,16 @@
 				{{ form_errors(form.image) }}
 			</div>
 		</div>
+		{% endif %}
 
 	</div>
 	<div class="character-container" style="display: block">
-
-		<img class="medium-avatar" src="{{ asset ('uploads/avatars/' ~ app.user.getAvatar().getImage() ) }} ">
+		{% if user %}
+			<img class="medium-avatar" src="{{ asset ('uploads/avatars/' ~ user.getAvatar().getImage() ) }} ">
+			<br>{{ user.getUsername() }}
+		{% else %}
+			User Not Found
+		{% endif %}
 		<div class="npc-list-container">
 			<table>
 				<thead>

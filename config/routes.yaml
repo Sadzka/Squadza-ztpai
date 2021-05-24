@@ -140,9 +140,17 @@ location:
 
 # Default Controller
 
+favicon:
+    path: favicon.ico
+    controller: App\Controller\DefaultController::favicon
+
 search:
     path: /search
     controller: App\Controller\DefaultController::search
+
+ranking:
+    path: /ranking
+    controller: App\Controller\DefaultController::ranking
 
 index_path:
     path: /{path}

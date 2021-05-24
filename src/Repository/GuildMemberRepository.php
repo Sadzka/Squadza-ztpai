@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\GuildMember;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method GuildMember|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,6 +28,21 @@ class GuildMemberRepository extends ServiceEntityRepository
             ->setParameter('guild', $guild)
             ->getQuery()
             ->getResult()[0]['members'];
+    }
+    public function averageLevel($guild)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('AVG(m.level) as level')
+            ->innerJoin('a.member', 'm', Join::ON)
+
+            ->andWhere('a.guild = :guild')
+            ->setParameter(':guild', $guild);
+
+        return $qb
+            ->getQuery()
+            ->getResult()[0]['level'];
+
     }
 
     // /**

@@ -29,9 +29,9 @@ form.addEventListener("submit", function (event) {
 
         characters = JSON.parse(characters);
 
-        characterContainer.innerHTML = '<th id="name"><a href="#" class="questref">Name</a></th>' +
+        characterContainer.innerHTML = '<th id="name"><a href="#">Name</th>' +
             '<th id="lv">Level</th>' +
-            '<th id="guild"><a href="#" class="npcref">Guild</a></th>';
+            '<th id="guild">Guild</th>';
 
         loadCharacters(characters);
     });

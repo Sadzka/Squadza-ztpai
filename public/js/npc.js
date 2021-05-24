@@ -63,7 +63,8 @@ function createNpc(npc) {
     npcref.innerHTML = npc.name;
     npcref.href = `/npc/${npc.id}`;
 
-    clone.querySelector("#loc").innerHTML = npc.location.name + '<br>' + `(${npc.x}, ${npc.y})`;
+    clone.querySelector("#loc").innerHTML =
+        `<a class="npcref" href=/location/${npc.location.id}?x=${npc.x}&y=${npc.y}>${npc.location.name} <br> (${npc.x}, ${npc.y})</a>`;
     clone.querySelector("#lv").innerHTML = npc.level;
     clone.querySelector("#hp").innerHTML = npc.health;
     clone.querySelector("#fr").innerHTML = npc.friendly;

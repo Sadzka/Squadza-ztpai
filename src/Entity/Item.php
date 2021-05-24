@@ -442,8 +442,8 @@ class Item
     {
         return [
             $this->socket1,
-            $this->socket1,
-            $this->socket1
+            $this->socket2,
+            $this->socket3
         ];
     }
 

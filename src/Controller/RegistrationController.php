@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Avatar;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
@@ -28,6 +29,9 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+
+            $avatar = $this->getDoctrine()->getRepository(Avatar::class)->find(1);
+            $user->setAvatar($avatar);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

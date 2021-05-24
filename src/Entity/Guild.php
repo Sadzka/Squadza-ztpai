@@ -35,6 +35,9 @@ class Guild
      */
     private $guildMembers;
 
+    private $members_no;
+    private $average_level;
+
     public function __construct()
     {
         $this->guildMembers = new ArrayCollection();
@@ -97,5 +100,25 @@ class Guild
         }
 
         return $this;
+    }
+
+    public function getMembersNo(): int
+    {
+        return $this->members_no;
+    }
+
+    public function setMembersNo($members_no)
+    {
+        $this->members_no = $members_no;
+    }
+
+    public function getAverageLevel() : float
+    {
+        return $this->average_level;
+    }
+
+    public function setAverageLevel(float $average_level): void
+    {
+        $this->average_level = $average_level;
     }
 }

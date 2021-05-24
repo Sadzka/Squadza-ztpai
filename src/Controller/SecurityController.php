@@ -22,6 +22,9 @@ class SecurityController extends AbstractController {
 	
 	public function profile(Request $request, $profile_id = -1)
 	{
+	    if ($profile_id == -1 && $this->getUser() == null)
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $avatar = new Avatar();
@@ -55,10 +58,11 @@ class SecurityController extends AbstractController {
 
 
         $profile_id = $profile_id == -1 ? $this->getUser()->getId() : $profile_id;
-        $user = $this->getDoctrine()->getRepository(User::class)->findById($profile_id);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneById($profile_id);
         $characters = $this->getDoctrine()->getRepository(Character::class)->findByUser($user);
 
 		return $this->render('security/profile.html.twig', [
+		    'user' => $user,
             'form' => $form->createView(),
 		    'messages' => $this->messages,
             'characters' => $characters

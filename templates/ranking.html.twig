@@ -1,0 +1,77 @@
+<html>
+<head>
+    <title>Ranking</title>
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/main.css') }} ">
+    <link type="text/css" rel="stylesheet" href=" {{ asset ('css/items.css') }} ">
+
+    <script type="text/javascript" src=" {{ asset ('js/comment.js') }} " defer></script>
+    <script type="text/javascript" src=" {{ asset ('js/item.js') }} " defer></script>
+</head>
+
+<body>
+{% include 'Utils/header_and_menu.html.twig' %}
+
+
+<div class="character-container">
+    <span>Characters</span>
+    <div>
+{% if characters is defined and characters is not empty %}
+    <div class="search-result-container inline-block" id="search-result-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Level</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set i = 1 %}
+            {% for character in characters %}
+                <tr>
+                    <th>{{ i }}</th>
+                    <th id="nname"><a href="/character/{{ character.getId() }}" class="questref">{{ character.getName() }}</a></th>
+                    <th>{{ character.getLevel() }}</th>
+                </tr>
+                {% set i = i + 1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+    </div>
+    <span>Guilds</span>
+    <div>
+        {% if guilds is defined and guilds is not empty %}
+            <div class="search-result-container inline-block" id="search-result-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Members</th>
+                        <th>Average Level</th>
+                        <th>Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set i = 1 %}
+                    {% for guild in guilds %}
+                        <tr>
+                            <th>{{ i }}</th>
+                            <th id="nname"><a href="/guild/{{ guild.getId() }}" class="questref">{{ guild.getName() }}</a></th>
+                            <th>{{ guild.getMembersNo() }}</th>
+                            <th>{{ guild.getAverageLevel()|round(2) }}</th>
+                            <th>{{ (guild.getAverageLevel()/guild.getMembersNo())|round(2) }}</th>
+                        </tr>
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
